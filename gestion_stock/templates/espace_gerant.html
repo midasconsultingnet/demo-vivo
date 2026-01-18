@@ -1,0 +1,510 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ titre_espace }} - SuccessFuel{% endblock %}
+
+{% block content %}
+<!-- Tableau de bord -->
+<div id="dashboard-section" class="section-content">
+    <!-- Stats Section -->
+    <div class="row g-3 g-md-4 mb-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Volume Vendu (L)</div>
+                <div class="stat-value mb-2">12,450</div>
+                <div class="stat-trend trend-positive">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_upward</span>
+                    <span>+5.2%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">CA Journalier (MGA)</div>
+                <div class="stat-value mb-2">48,560K</div>
+                <div class="stat-trend trend-positive">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_upward</span>
+                    <span>+2.1%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Stock Total (L)</div>
+                <div class="stat-value mb-2">42,300</div>
+                <div class="stat-trend text-muted">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">horizontal_rule</span>
+                    <span>stable</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Alertes Stock</div>
+                <div class="stat-value mb-2">2</div>
+                <div class="stat-trend trend-negative">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">warning</span>
+                    <span>-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row g-3 g-md-4 mb-4">
+        <div class="col-12 col-lg-6">
+            <div class="stat-card h-100">
+                <h5 class="fw-semibold mb-3">Évolution des Ventes</h5>
+                <div class="chart-placeholder d-flex align-items-center justify-content-center" style="height: 250px; background-color: #f8f9fa; border-radius: 0.5rem;">
+                    <span class="text-muted">Graphique des ventes</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="stat-card h-100">
+                <h5 class="fw-semibold mb-3">Évolution des Achats</h5>
+                <div class="chart-placeholder d-flex align-items-center justify-content-center" style="height: 250px; background-color: #f8f9fa; border-radius: 0.5rem;">
+                    <span class="text-muted">Graphique des achats</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mes stations -->
+<div id="stations-section" class="section-content" style="display: none;">
+    <h4 class="fw-bold mb-3 mb-md-4">Mes Stations</h4>
+    <div class="row g-3 g-md-4">
+        {% if stations %}
+            {% for station in stations %}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="tank-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-semibold mb-0">{{ station.nom }}</h5>
+                            <span class="fs-5 fw-bold">Opérationnel</span>
+                        </div>
+                        <div class="text-muted small mb-2">
+                            <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">location_on</span>
+                            Antananarivo
+                        </div>
+                        <div class="text-muted small">
+                            <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">person</span>
+                            {{ user.utilisateur.prenom }} {{ user.utilisateur.nom }}
+                        </div>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-outline-primary w-100">Détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    Vous ne gérez aucune station pour le moment.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Approvisionnements -->
+<div id="approvisionnements-section" class="section-content" style="display: none;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">Approvisionnements</h4>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary active" onclick="showSubSection('achats')">Carburants</button>
+            <button type="button" class="btn btn-outline-primary" onclick="showSubSection('lubrifiants')">Lubrifiants</button>
+        </div>
+    </div>
+    
+    <div id="achats-subsection">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-semibold mb-0">Achats de Carburants</h5>
+            <a href="#" class="btn btn-success">Ajouter</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Produit</th>
+                        <th>Quantité (L)</th>
+                        <th>Fournisseur</th>
+                        <th>Facture</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2026-01-15</td>
+                        <td>Super Plombé</td>
+                        <td>10,000</td>
+                        <td>Compagnie A</td>
+                        <td>FACT-2026-001</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Détails</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2026-01-10</td>
+                        <td>Gazole</td>
+                        <td>8,000</td>
+                        <td>Compagnie B</td>
+                        <td>FACT-2026-002</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Détails</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <nav aria-label="Pagination des achats">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled"><a class="page-link" href="#">Précédent</a></li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Suivant</a></li>
+            </ul>
+        </nav>
+    </div>
+    
+    <div id="lubrifiants-subsection" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-semibold mb-0">Achats de Lubrifiants</h5>
+            <a href="#" class="btn btn-success">Ajouter</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Fournisseur</th>
+                        <th>Facture</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2026-01-12</td>
+                        <td>Huile moteur 15W40</td>
+                        <td>200</td>
+                        <td>Distributeur X</td>
+                        <td>FACT-LUB-2026-001</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Détails</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Ventes -->
+<div id="ventes-section" class="section-content" style="display: none;">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">Ventes</h4>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary active" onclick="showVenteSubSection('ventes-carburants')">Carburants</button>
+            <button type="button" class="btn btn-outline-primary" onclick="showVenteSubSection('ventes-lubrifiants')">Lubrifiants</button>
+        </div>
+    </div>
+    
+    <div id="ventes-carburants-subsection">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-semibold mb-0">Ventes de Carburants</h5>
+            <a href="#" class="btn btn-success">Ajouter</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Pistolet</th>
+                        <th>Produit</th>
+                        <th>Quantité (L)</th>
+                        <th>Index Début</th>
+                        <th>Index Fin</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2026-01-17</td>
+                        <td>Pistolet 1</td>
+                        <td>Super Plombé</td>
+                        <td>45.5</td>
+                        <td>12500</td>
+                        <td>12545.5</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Détails</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2026-01-17</td>
+                        <td>Pistolet 3</td>
+                        <td>Gazole</td>
+                        <td>32.0</td>
+                        <td>8750</td>
+                        <td>8782</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Détails</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div id="ventes-lubrifiants-subsection" style="display: none;">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-semibold mb-0">Ventes de Lubrifiants</h5>
+            <a href="#" class="btn btn-success">Ajouter</a>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Prix Unit.</th>
+                        <th>Total</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2026-01-16</td>
+                        <td>Huile moteur 15W40</td>
+                        <td>2</td>
+                        <td>15,000</td>
+                        <td>30,000</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Détails</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Stocks -->
+<div id="stocks-section" class="section-content" style="display: none;">
+    <h4 class="fw-bold mb-3 mb-md-4">Stocks</h4>
+    <div class="row g-3 g-md-4">
+        <div class="col-12 col-lg-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-semibold mb-0">Cuves</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Nom Cuve</th>
+                                <th>Produit</th>
+                                <th>Capacité (L)</th>
+                                <th>Stock Actuel (L)</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cuve 1</td>
+                                <td>Super Plombé</td>
+                                <td>20,000</td>
+                                <td>15,200</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">Historique</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Cuve 2</td>
+                                <td>Gazole</td>
+                                <td>20,000</td>
+                                <td>12,800</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">Historique</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Cuve 3</td>
+                                <td>Pétrole</td>
+                                <td>15,000</td>
+                                <td>8,500</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">Historique</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="stat-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-semibold mb-0">Lubrifiants</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Produit</th>
+                                <th>Unité</th>
+                                <th>Stock Actuel</th>
+                                <th>Seuil Min</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Huile moteur 15W40</td>
+                                <td>Carton (12 bidons)</td>
+                                <td>15</td>
+                                <td>5</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">Historique</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Liquide frein DOT4</td>
+                                <td>Bidon (1L)</td>
+                                <td>28</td>
+                                <td>10</td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary">Historique</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions Section -->
+<h4 class="fw-bold mb-3 mb-md-4">Actions Rapides</h4>
+<div class="row g-3 g-md-4">
+    <div class="col-6 col-md-3">
+        <a href="#" class="action-btn">
+            <span class="material-symbols-outlined text-success fs-1 mb-2">add_shopping_cart</span>
+            <div class="fw-semibold">Nouvelle Vente</div>
+        </a>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <a href="#" class="action-btn">
+            <span class="material-symbols-outlined text-success fs-1 mb-2">move_to_inbox</span>
+            <div class="fw-semibold">Réception Camion</div>
+        </a>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <a href="#" class="action-btn">
+            <span class="material-symbols-outlined text-success fs-1 mb-2">pin</span>
+            <div class="fw-semibold">Relevé Index</div>
+        </a>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <a href="#" class="action-btn">
+            <span class="material-symbols-outlined text-success fs-1 mb-2">lock</span>
+            <div class="fw-semibold">Clôture Caisse</div>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Fonction pour afficher/masquer les sections
+    function showSection(sectionId) {
+        // Masquer toutes les sections
+        document.querySelectorAll('.section-content').forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // Afficher la section demandée
+        document.getElementById(sectionId).style.display = 'block';
+        
+        // Mettre à jour les classes actives dans la sidebar
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Trouver le lien correspondant dans la sidebar et l'activer
+        const sectionName = sectionId.replace('-section', '');
+        const navLink = document.querySelector(`[href="#${sectionName}"]`);
+        if (navLink) {
+            navLink.classList.add('active');
+        } else {
+            // Si aucun lien spécifique n'est trouvé, activer le tableau de bord par défaut
+            const dashboardLink = document.querySelector('[href="#dashboard"]');
+            if (dashboardLink) {
+                dashboardLink.classList.add('active');
+            }
+        }
+    }
+    
+    // Fonction pour afficher les sous-sections d'approvisionnements
+    function showSubSection(subSectionId) {
+        // Masquer toutes les sous-sections
+        document.getElementById('achats-subsection').style.display = 'none';
+        document.getElementById('lubrifiants-subsection').style.display = 'none';
+        
+        // Afficher la sous-section demandée
+        if (subSectionId === 'achats') {
+            document.getElementById('achats-subsection').style.display = 'block';
+            document.querySelector('#approvisionnements-section .btn-outline-primary:nth-child(1)').classList.add('active');
+            document.querySelector('#approvisionnements-section .btn-outline-primary:nth-child(2)').classList.remove('active');
+        } else if (subSectionId === 'lubrifiants') {
+            document.getElementById('lubrifiants-subsection').style.display = 'block';
+            document.querySelector('#approvisionnements-section .btn-outline-primary:nth-child(2)').classList.add('active');
+            document.querySelector('#approvisionnements-section .btn-outline-primary:nth-child(1)').classList.remove('active');
+        }
+    }
+    
+    // Fonction pour afficher les sous-sections de ventes
+    function showVenteSubSection(subSectionId) {
+        // Masquer toutes les sous-sections
+        document.getElementById('ventes-carburants-subsection').style.display = 'none';
+        document.getElementById('ventes-lubrifiants-subsection').style.display = 'none';
+        
+        // Afficher la sous-section demandée
+        if (subSectionId === 'ventes-carburants') {
+            document.getElementById('ventes-carburants-subsection').style.display = 'block';
+            document.querySelector('#ventes-section .btn-outline-primary:nth-child(1)').classList.add('active');
+            document.querySelector('#ventes-section .btn-outline-primary:nth-child(2)').classList.remove('active');
+        } else if (subSectionId === 'ventes-lubrifiants') {
+            document.getElementById('ventes-lubrifiants-subsection').style.display = 'block';
+            document.querySelector('#ventes-section .btn-outline-primary:nth-child(2)').classList.add('active');
+            document.querySelector('#ventes-section .btn-outline-primary:nth-child(1)').classList.remove('active');
+        }
+    }
+    
+    // Animation des cuves au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+        // Par défaut, afficher le tableau de bord
+        showSection('dashboard-section');
+        
+        const tankFills = document.querySelectorAll('.tank-fill');
+        tankFills.forEach(fill => {
+            const height = fill.style.height;
+            fill.style.height = '0%';
+            setTimeout(() => {
+                fill.style.height = height;
+            }, 100);
+        });
+    });
+</script>
+{% endblock %}

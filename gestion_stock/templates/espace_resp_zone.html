@@ -1,0 +1,495 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ titre_espace }} - SuccessFuel{% endblock %}
+
+{% block content %}
+<!-- Tableau de bord -->
+<div id="dashboard-section" class="section-content">
+    <!-- Stats Section -->
+    <div class="row g-3 g-md-4 mb-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Stations Supervisées</div>
+                <div class="stat-value mb-2">8</div>
+                <div class="stat-trend trend-positive">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_upward</span>
+                    <span>+0.0%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">CA Zone (MGA)</div>
+                <div class="stat-value mb-2">480K</div>
+                <div class="stat-trend trend-positive">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_upward</span>
+                    <span>+3.2%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Moyenne Zone</div>
+                <div class="stat-value mb-2">11.8%</div>
+                <div class="stat-trend trend-negative">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_downward</span>
+                    <span>-0.3%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Alertes Zone</div>
+                <div class="stat-value mb-2">1</div>
+                <div class="stat-trend text-muted">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">horizontal_rule</span>
+                    <span>stable</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row g-3 g-md-4 mb-4">
+        <div class="col-12 col-lg-6">
+            <div class="stat-card h-100">
+                <h5 class="fw-semibold mb-3">Évolution des Ventes</h5>
+                <div class="chart-placeholder d-flex align-items-center justify-content-center" style="height: 250px; background-color: #f8f9fa; border-radius: 0.5rem;">
+                    <span class="text-muted">Graphique des ventes</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-6">
+            <div class="stat-card h-100">
+                <h5 class="fw-semibold mb-3">Évolution des Achats</h5>
+                <div class="chart-placeholder d-flex align-items-center justify-content-center" style="height: 250px; background-color: #f8f9fa; border-radius: 0.5rem;">
+                    <span class="text-muted">Graphique des achats</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Carburants -->
+<div id="carburants-section" class="section-content" style="display: none;">
+    <!-- Tableau de bord pour carburants -->
+    <div class="row g-3 g-md-4 mb-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Volume Total (L)</div>
+                <div class="stat-value mb-2">36,000</div>
+                <div class="stat-trend text-muted">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">horizontal_rule</span>
+                    <span>stable</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Ventes 24h (L)</div>
+                <div class="stat-value mb-2">12,450</div>
+                <div class="stat-trend trend-positive">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_upward</span>
+                    <span>+5.2%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Stock Moyen</div>
+                <div class="stat-value mb-2">65%</div>
+                <div class="stat-trend text-muted">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">horizontal_rule</span>
+                    <span>stable</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Alertes</div>
+                <div class="stat-value mb-2">0</div>
+                <div class="stat-trend trend-positive">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">check_circle</span>
+                    <span>aucune</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="fw-bold mb-3 mb-md-4">Carburants</h4>
+    <div class="row g-3 g-md-4">
+        <div class="col-12 col-md-4">
+            <div class="stat-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-semibold mb-0">Essence</h5>
+                    <span class="fs-5 fw-bold">85%</span>
+                </div>
+                <div class="tank-visual mb-3">
+                    <div class="tank-fill bg-primary" style="height: 85%;"></div>
+                </div>
+                <div class="text-muted small">
+                    17,000L | 24°C
+                </div>
+                <div class="mt-3">
+                    <a href="#" class="btn btn-outline-primary w-100">Détails</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-md-4">
+            <div class="stat-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-semibold mb-0">Gasoil</h5>
+                    <span class="fs-5 fw-bold">60%</span>
+                </div>
+                <div class="tank-visual mb-3">
+                    <div class="tank-fill bg-warning" style="height: 60%;"></div>
+                </div>
+                <div class="text-muted small">
+                    12,000L | 23°C
+                </div>
+                <div class="mt-3">
+                    <a href="#" class="btn btn-outline-primary w-100">Détails</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-12 col-md-4">
+            <div class="stat-card h-100">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-semibold mb-0">Pétrole</h5>
+                    <span class="fs-5 fw-bold">35%</span>
+                </div>
+                <div class="tank-visual mb-3">
+                    <div class="tank-fill bg-danger" style="height: 35%;"></div>
+                </div>
+                <div class="text-muted small">
+                    7,000L | 25°C
+                </div>
+                <div class="mt-3">
+                    <a href="#" class="btn btn-outline-primary w-100">Détails</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lubrifiants -->
+<div id="lubrifiants-section" class="section-content" style="display: none;">
+    <!-- Tableau de bord pour lubrifiants -->
+    <div class="row g-3 g-md-4 mb-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Produits Disponibles</div>
+                <div class="stat-value mb-2">24</div>
+                <div class="stat-trend text-muted">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">horizontal_rule</span>
+                    <span>stable</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Valeur Stock (MGA)</div>
+                <div class="stat-value mb-2">120K</div>
+                <div class="stat-trend trend-positive">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_upward</span>
+                    <span>+2.1%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Produits Bas Stock</div>
+                <div class="stat-value mb-2">3</div>
+                <div class="stat-trend trend-negative">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">warning</span>
+                    <span>alertes</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Rotation Stock</div>
+                <div class="stat-value mb-2">1.8x</div>
+                <div class="stat-trend text-muted">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">horizontal_rule</span>
+                    <span>normal</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4 class="fw-bold mb-0">Lubrifiants</h4>
+        <div class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-primary active" onclick="showLubSubSection('liste')">Liste</button>
+            <button type="button" class="btn btn-outline-primary" onclick="showLubSubSection('recherche')">Recherche</button>
+        </div>
+    </div>
+    
+    <div id="liste-lubrifiants">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Unité</th>
+                        <th>Stock Actuel</th>
+                        <th>Seuil Min</th>
+                        <th>Statut</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Huile moteur 15W40</td>
+                        <td>Carton (12 bidons)</td>
+                        <td>15</td>
+                        <td>5</td>
+                        <td><span class="badge bg-success">Normal</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Détails</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Liquide frein DOT4</td>
+                        <td>Bidon (1L)</td>
+                        <td>28</td>
+                        <td>10</td>
+                        <td><span class="badge bg-success">Normal</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Détails</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Liquide refroidissement</td>
+                        <td>Seau (5L)</td>
+                        <td>3</td>
+                        <td>5</td>
+                        <td><span class="badge bg-warning">Bas</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary">Détails</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div id="recherche-lubrifiants" style="display: none;">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Recherche de lubrifiants</h5>
+                <form>
+                    <div class="mb-3">
+                        <label for="produitRecherche" class="form-label">Nom du produit</label>
+                        <input type="text" class="form-control" id="produitRecherche" placeholder="Rechercher un lubrifiant...">
+                    </div>
+                    <div class="mb-3">
+                        <label for="categorieRecherche" class="form-label">Catégorie</label>
+                        <select class="form-select" id="categorieRecherche">
+                            <option>Toutes catégories</option>
+                            <option>Huiles moteur</option>
+                            <option>Liquides techniques</option>
+                            <option>Autres</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Stations Section -->
+<div id="stations-section" class="section-content" style="display: none;">
+    <!-- Tableau de bord pour stations -->
+    <div class="row g-3 g-md-4 mb-4">
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Stations Supervisées</div>
+                <div class="stat-value mb-2">8</div>
+                <div class="stat-trend text-muted">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">horizontal_rule</span>
+                    <span>stable</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">CA Total (MGA)</div>
+                <div class="stat-value mb-2">1.2M</div>
+                <div class="stat-trend trend-positive">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">arrow_upward</span>
+                    <span>+8.2%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Moyenne/Station</div>
+                <div class="stat-value mb-2">150K</div>
+                <div class="stat-trend text-muted">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">horizontal_rule</span>
+                    <span>stable</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-6 col-lg-3">
+            <div class="stat-card">
+                <div class="stat-label mb-2">Alertes</div>
+                <div class="stat-value mb-2">2</div>
+                <div class="stat-trend trend-negative">
+                    <span class="material-symbols-outlined" style="font-size: 1rem;">warning</span>
+                    <span>alertes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="fw-bold mb-3 mb-md-4">Stations Supervisées</h4>
+    <div class="row g-3 g-md-4">
+        {% if stations %}
+            {% for station in stations %}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="tank-card">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="fw-semibold mb-0">{{ station.nom }}</h5>
+                            <span class="fs-5 fw-bold">Opérationnel</span>
+                        </div>
+                        <div class="text-muted small mb-2">
+                            <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">location_on</span>
+                            Antananarivo
+                        </div>
+                        <div class="text-muted small">
+                            <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">person</span>
+                            {{ station.gérant.prenom|default:"Jean" }} {{ station.gérant.nom|default:"Dupont" }}
+                        </div>
+                        <div class="mt-3">
+                            <a href="#" class="btn btn-outline-primary w-100">Détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    Aucune station n'est sous votre supervision.
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Quick Actions Section -->
+<h4 class="fw-bold mb-3 mb-md-4">Actions Rapides</h4>
+<div class="row g-3 g-md-4">
+    <div class="col-6 col-md-3">
+        <a href="#" class="action-btn">
+            <span class="material-symbols-outlined text-success fs-1 mb-2">analytics</span>
+            <div class="fw-semibold">Rapport Zone</div>
+        </a>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <a href="#" class="action-btn">
+            <span class="material-symbols-outlined text-success fs-1 mb-2">warning</span>
+            <div class="fw-semibold">Suivi Alertes</div>
+        </a>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <a href="#" class="action-btn">
+            <span class="material-symbols-outlined text-success fs-1 mb-2">chat</span>
+            <div class="fw-semibold">Contacter</div>
+        </a>
+    </div>
+
+    <div class="col-6 col-md-3">
+        <a href="#" class="action-btn">
+            <span class="material-symbols-outlined text-success fs-1 mb-2">settings</span>
+            <div class="fw-semibold">Paramètres</div>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Fonction pour afficher/masquer les sections
+    function showSection(sectionId) {
+        // Masquer toutes les sections
+        document.querySelectorAll('.section-content').forEach(section => {
+            section.style.display = 'none';
+        });
+        
+        // Afficher la section demandée
+        document.getElementById(sectionId).style.display = 'block';
+        
+        // Mettre à jour les classes actives dans la sidebar
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Trouver le lien correspondant dans la sidebar et l'activer
+        const sectionName = sectionId.replace('-section', '');
+        const navLink = document.querySelector(`[href="#${sectionName}"]`);
+        if (navLink) {
+            navLink.classList.add('active');
+        } else {
+            // Si aucun lien spécifique n'est trouvé, activer le tableau de bord par défaut
+            const dashboardLink = document.querySelector('[href="#dashboard"]');
+            if (dashboardLink) {
+                dashboardLink.classList.add('active');
+            }
+        }
+    }
+    
+    // Fonction pour afficher les sous-sections de lubrifiants
+    function showLubSubSection(subSectionId) {
+        // Masquer toutes les sous-sections
+        document.getElementById('liste-lubrifiants').style.display = 'none';
+        document.getElementById('recherche-lubrifiants').style.display = 'none';
+        
+        // Afficher la sous-section demandée
+        if (subSectionId === 'liste') {
+            document.getElementById('liste-lubrifiants').style.display = 'block';
+            document.querySelector('#lubrifiants-section .btn-outline-primary:nth-child(1)').classList.add('active');
+            document.querySelector('#lubrifiants-section .btn-outline-primary:nth-child(2)').classList.remove('active');
+        } else if (subSectionId === 'recherche') {
+            document.getElementById('recherche-lubrifiants').style.display = 'block';
+            document.querySelector('#lubrifiants-section .btn-outline-primary:nth-child(2)').classList.add('active');
+            document.querySelector('#lubrifiants-section .btn-outline-primary:nth-child(1)').classList.remove('active');
+        }
+    }
+    
+    // Animation des cuves au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+        // Par défaut, afficher la section tableau de bord
+        showSection('dashboard-section');
+        
+        const tankFills = document.querySelectorAll('.tank-fill');
+        tankFills.forEach(fill => {
+            const height = fill.style.height;
+            fill.style.height = '0%';
+            setTimeout(() => {
+                fill.style.height = height;
+            }, 100);
+        });
+    });
+</script>
+{% endblock %}

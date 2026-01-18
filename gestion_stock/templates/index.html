@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Tableau de Bord - SuccessFuel{% endblock %}
+
+{% block content %}
+<!-- Tableau de bord générique -->
+<div class="p-4">
+    <h2 class="fw-bold mb-4">Tableau de Bord</h2>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card stat-card">
+                <div class="card-body">
+                    <h5 class="card-title">Statistiques</h5>
+                    <p class="card-text">Consultez les statistiques de votre station</p>
+                    <a href="#" class="btn btn-primary">Voir détails</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card stat-card">
+                <div class="card-body">
+                    <h5 class="card-title">Stock</h5>
+                    <p class="card-text">Gérez votre inventaire et les niveaux de stock</p>
+                    <a href="#" class="btn btn-primary">Gérer le stock</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card stat-card">
+                <div class="card-body">
+                    <h5 class="card-title">Rapports</h5>
+                    <p class="card-text">Générez des rapports détaillés</p>
+                    <a href="#" class="btn btn-primary">Consulter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Activité récente</h5>
+                </div>
+                <div class="card-body">
+                    <p>Aucune activité récente à afficher.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Animation des cuves au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+        const tankFills = document.querySelectorAll('.tank-fill');
+        tankFills.forEach(fill => {
+            const height = fill.style.height;
+            fill.style.height = '0%';
+            setTimeout(() => {
+                fill.style.height = height;
+            }, 100);
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,451 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}SuccessFuel Dashboard{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #38A169;
+            --sidebar-bg: #2D3748;
+            --sidebar-hover: rgba(255, 255, 255, 0.1);
+            --positive: #48BB78;
+            --negative: #E53E3E;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            color: #E2E8F0;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-brand {
+            padding: 1.5rem 1rem;
+        }
+
+        .sidebar-brand-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(56, 161, 105, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-nav {
+            padding: 0 1rem;
+        }
+
+        .nav-link {
+            color: rgba(226, 232, 240, 0.8);
+            padding: 0.65rem 0.75rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .nav-link:hover {
+            background-color: var(--sidebar-hover);
+            color: #E2E8F0;
+        }
+
+        .nav-link.active {
+            background-color: rgba(56, 161, 105, 0.2);
+            color: #E2E8F0;
+        }
+
+        .nav-link.active .material-symbols-outlined {
+            color: var(--primary);
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            min-height: 100vh;
+            background-color: #F7FAFC;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            background-color: white;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 1rem 1.5rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        /* Stats Card */
+        .stat-card {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-value {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #2D3748;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: rgba(45, 55, 72, 0.7);
+            font-weight: 500;
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .trend-positive {
+            color: var(--positive);
+        }
+
+        .trend-negative {
+            color: var(--negative);
+        }
+
+        /* Tank Widget */
+        .tank-card {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .tank-visual {
+            position: relative;
+            height: 192px;
+            background-color: #E2E8F0;
+            border-radius: 0.5rem;
+            overflow: hidden;
+        }
+
+        .tank-fill {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            border-radius: 0.5rem 0.5rem 0 0;
+            transition: height 0.3s ease;
+        }
+
+        /* Quick Action Button */
+        .action-btn {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.2s;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .action-btn:hover {
+            background-color: #F7FAFC;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="d-flex flex-column h-100">
+            <div class="flex-grow-1">
+                <!-- Brand -->
+                <div class="sidebar-brand d-flex align-items-center gap-3">
+                    <div class="sidebar-brand-icon">
+                        <span class="material-symbols-outlined text-success fs-4">local_gas_station</span>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">SuccessFuel</h5>
+                        <small class="text-success">Gas Station Management</small>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="sidebar-nav">
+                    <ul class="nav flex-column gap-2">
+                        {% if user.utilisateur %}
+                            {% if user.utilisateur.profil.code == 'GERANT_STATION' %}
+                                <li class="nav-item">
+                                    <a href="{% url 'gestion_stock:espace_gerant' %}" class="nav-link {% if request.resolver_match.url_name == 'espace_gerant' %}active{% endif %}">
+                                        <span class="material-symbols-outlined">dashboard</span>
+                                        <span>Tableau de Bord</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span class="material-symbols-outlined">inventory</span>
+                                        <span>Stocks & Cuves</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span class="material-symbols-outlined">storefront</span>
+                                        <span>Ventes</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span class="material-symbols-outlined">local_shipping</span>
+                                        <span>Approvisionnements</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span class="material-symbols-outlined">account_balance_wallet</span>
+                                        <span>Comptabilité</span>
+                                    </a>
+                                </li>
+                            {% elif user.utilisateur.profil.code == 'ADMIN_COMPAGNIE' %}
+                                <li class="nav-item">
+                                    <a href="{% url 'gestion_stock:espace_admin' %}" class="nav-link {% if request.resolver_match.url_name == 'espace_admin' %}active{% endif %}">
+                                        <span class="material-symbols-outlined">dashboard</span>
+                                        <span>Tableau de Bord</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span class="material-symbols-outlined">local_gas_station</span>
+                                        <span>Carburant</span>
+                                    </a>
+                                    <ul class="nav flex-column ms-4">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <span class="material-symbols-outlined">bolt</span>
+                                                <span>SP</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <span class="material-symbols-outlined">bolt</span>
+                                                <span>GO</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <span class="material-symbols-outlined">bolt</span>
+                                                <span>PL</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span class="material-symbols-outlined">oil_barrel</span>
+                                        <span>Lubrifiants</span>
+                                    </a>
+                                    <ul class="nav flex-column ms-4">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <span class="material-symbols-outlined">list</span>
+                                                <span>Liste Produit Lubrifiant</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <span class="material-symbols-outlined">search</span>
+                                                <span>Recherche</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% elif user.utilisateur.profil.code == 'RESPONSABLE_ZONE' %}
+                                <li class="nav-item">
+                                    <a href="{% url 'gestion_stock:espace_resp_zone' %}" class="nav-link {% if request.resolver_match.url_name == 'espace_resp_zone' %}active{% endif %}">
+                                        <span class="material-symbols-outlined">dashboard</span>
+                                        <span>Tableau de Bord</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span class="material-symbols-outlined">local_gas_station</span>
+                                        <span>Carburant</span>
+                                    </a>
+                                    <ul class="nav flex-column ms-4">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <span class="material-symbols-outlined">bolt</span>
+                                                <span>SP</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <span class="material-symbols-outlined">bolt</span>
+                                                <span>GO</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <span class="material-symbols-outlined">bolt</span>
+                                                <span>PL</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <span class="material-symbols-outlined">oil_barrel</span>
+                                        <span>Lubrifiants</span>
+                                    </a>
+                                    <ul class="nav flex-column ms-4">
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <span class="material-symbols-outlined">list</span>
+                                                <span>Liste Produit Lubrifiant</span>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a href="#" class="nav-link">
+                                                <span class="material-symbols-outlined">search</span>
+                                                <span>Recherche</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            <li class="nav-item">
+                                <a href="{% url 'gestion_stock:index' %}" class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+                                    <span class="material-symbols-outlined">dashboard</span>
+                                    <span>Tableau de Bord</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Logout -->
+            <div class="sidebar-nav pb-3">
+                <form method="post" action="{% url 'gestion_stock:logout' %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="nav-link" style="background: none; border: none; width: 100%;">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span>Déconnexion</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Navigation -->
+        <header class="top-nav d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-link d-md-none" id="sidebarToggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <div class="d-flex align-items-center gap-2">
+                    <h5 class="mb-0 fw-bold">Station: {{ station_name|default:"Antananarivo - Centre" }}</h5>
+                    <span class="material-symbols-outlined text-muted">expand_more</span>
+                </div>
+            </div>
+
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-light rounded-circle" style="width: 40px; height: 40px;">
+                    <span class="material-symbols-outlined">notifications</span>
+                </button>
+                <button class="btn btn-light rounded-circle" style="width: 40px; height: 40px;">
+                    <span class="material-symbols-outlined">language</span>
+                </button>
+
+                <div class="d-flex align-items-center gap-2">
+                    <img src="{{ user.profile_image|default:'https://lh3.googleusercontent.com/aida-public/AB6AXuAx0Rigl-5WDGcPyhrlRYy0qXoPi0mm5AfbdSeJW4c3OpvaxkcKv_rZcdTWi9K9uJN5F7g5Cowhw-ks3BavdMHPXt1sujwl0t8lRbBxYvgoOcobCWq6mProDaCRA-TYGdtd98jf88yF2itdImaOdkprrNeKd-1w145qzob1_kPj6RcAI_R24aTec5kbLnjaTWFRcyvaymjTqZ0ao1h3xmA93DTPz2tV-CSeJMgPLaL8md5Xbkg-Cwutijxa7Rh_wDcKqh3LhiAZTN_C' }}" alt="User" class="user-avatar">
+                    <div class="d-none d-md-block">
+                        <div class="fw-semibold small">{{ user.utilisateur.prenom|default:user.username }} {{ user.utilisateur.nom|default:"" }}</div>
+                        <div class="text-muted" style="font-size: 0.75rem;">{{ user.utilisateur.profil.libelle|default:"Administrateur" }}</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="p-3 p-md-4">
+            {% block content %}
+            <!-- Le contenu de la page ira ici -->
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Toggle sidebar on mobile
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('show');
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
