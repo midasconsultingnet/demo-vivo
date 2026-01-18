@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2dwv#0#b5-(*xq#xlg#juvo!rl2=fl*%apb8@9e_pl-c6(2e!l'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-2dwv#0#b5-(*xq#xlg#juvo!rl2=fl*%apb8@9e_pl-c6(2e!l')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = []
+# Allow all hosts in production (Render assigns dynamic hostnames)
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Pour servir les fichiers statiques sur Render
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -71,13 +75,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'succes_fuel.wsgi.application'
 
 
-import dj_database_url
-
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.parse('postgresql://successfueldb:jYMF04yYR6BikVgzWcc4mYaMUpmDchoz@dpg-d5dpmf63jp1c73f157a0-a.frankfurt-postgres.render.com/vivo')
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL', 'postgresql://successfueldb:jYMF04yYR6BikVgzWcc4mYaMUpmDchoz@dpg-d5dpmf63jp1c73f157a0-a.frankfurt-postgres.render.com/vivo')
+    )
 }
 
 
@@ -115,10 +119,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Pour servir les fichiers statiques sur Render
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Redirection après connexion/déconnexion
 LOGIN_URL = 'gestion_stock:login'  # URL de la page de connexion
 LOGIN_REDIRECT_URL = 'gestion_stock:index'  # Page d'accueil après connexion
 LOGOUT_REDIRECT_URL = 'gestion_stock:login'  # Page vers laquelle rediriger après déconnexion
-

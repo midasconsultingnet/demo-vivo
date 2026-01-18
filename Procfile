@@ -1,0 +1,1 @@
+web: gunicorn succes_fuel.wsgi:application --bind 0.0.0.0:$PORT
