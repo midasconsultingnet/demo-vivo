@@ -997,6 +997,49 @@
     .mobile-overlay.active {
       display: block;
     }
+
+    /* ========================================
+       CLOCK DISPLAY
+    ======================================== */
+    .clock-display {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      margin-right: 1rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--muted);
+      border-radius: 0.5rem;
+      min-width: 100px;
+    }
+
+    .date-text {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .time-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--foreground);
+    }
+
+    @media (max-width: 768px) {
+      .clock-display {
+        margin-right: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        min-width: 80px;
+      }
+
+      .date-text {
+        font-size: 0.65rem;
+      }
+
+      .time-text {
+        font-size: 0.85rem;
+      }
+    }
   </style>
 
   <!-- Menu spécifique selon le profil utilisateur -->
@@ -1144,6 +1187,12 @@
         </div>
 
         <div class="header-right">
+          <!-- Clock Display -->
+          <div class="clock-display">
+            <div id="current-date" class="date-text">Chargement...</div>
+            <div id="current-time" class="time-text">00:00:00</div>
+          </div>
+
           <button class="btn-icon" id="searchBtn">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
@@ -1303,16 +1352,29 @@
     // ==========================================
     const themeToggle = document.getElementById('themeToggle');
     const html = document.documentElement;
-    let isDark = false;
+
+    // Check for saved theme preference or default to dark mode
+    let isDark = localStorage.getItem('theme') !== 'light'; // Default to dark if no preference is set
+
+    // Apply saved theme on page load
+    if (isDark) {
+      html.classList.add('dark');
+      themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+    } else {
+      html.classList.remove('dark');
+      themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+    }
 
     themeToggle.addEventListener('click', () => {
       isDark = !isDark;
       if (isDark) {
         html.classList.add('dark');
         themeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
+        localStorage.setItem('theme', 'dark');
       } else {
         html.classList.remove('dark');
         themeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
+        localStorage.setItem('theme', 'light');
       }
     });
 
@@ -1418,123 +1480,226 @@
     // 7. FORM SUBMIT
     // ==========================================
     const saleForm = document.getElementById('saleForm');
-
-    saleForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Formulaire soumis avec succès!');
-      saleForm.reset();
-    });
+    if (saleForm) {
+      saleForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Formulaire soumis avec succès!');
+        saleForm.reset();
+      });
+    }
 
     // ==========================================
     // 8. CHARTS (Chart.js)
     // ==========================================
 
-    // Sales Chart (Line)
-    const salesCtx = document.getElementById('salesChart');
-    if (salesCtx) {
-      const salesChart = new Chart(salesCtx.getContext('2d'), {
-        type: 'line',
-        data: {
-          labels: ['Août', 'Sept', 'Oct', 'Nov', 'Déc', 'Jan'],
-          datasets: [{
-            label: 'Ventes (€)',
-            data: [12000, 19000, 15000, 22000, 18000, 25000],
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            tension: 0.4,
-            fill: true
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-            legend: {
-              display: true,
-              position: 'bottom'
-            }
+    // Global chart management system to prevent conflicts
+    window.ChartManager = window.ChartManager || {
+      charts: {},
+
+      // Method to register a chart
+      register: function(id, chart) {
+        if (this.charts[id]) {
+          this.destroy(id);
+        }
+        this.charts[id] = chart;
+      },
+
+      // Method to destroy a chart
+      destroy: function(id) {
+        if (this.charts[id]) {
+          try {
+            this.charts[id].destroy();
+          } catch(e) {
+            console.warn(`Could not destroy chart ${id}:`, e);
+          }
+          delete this.charts[id];
+        }
+      },
+
+      // Method to destroy all charts
+      destroyAll: function() {
+        for (let id in this.charts) {
+          this.destroy(id);
+        }
+      },
+
+      // Method to check if a chart exists
+      has: function(id) {
+        return !!this.charts[id];
+      }
+    };
+
+    // Function to initialize charts
+    function initializeCharts() {
+      // Sales Chart (Line) - only if it doesn't already exist
+      const salesCtx = document.getElementById('salesChart');
+      if (salesCtx && !window.ChartManager.has('salesChart')) {
+        const salesChart = new Chart(salesCtx.getContext('2d'), {
+          type: 'line',
+          data: {
+            labels: ['Août', 'Sept', 'Oct', 'Nov', 'Déc', 'Jan'],
+            datasets: [{
+              label: 'Ventes (€)',
+              data: [12000, 19000, 15000, 22000, 18000, 25000],
+              borderColor: '#10b981',
+              backgroundColor: 'rgba(16, 185, 129, 0.1)',
+              tension: 0.4,
+              fill: true
+            }]
           },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return value.toLocaleString() + ' €';
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                display: true,
+                position: 'bottom'
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  callback: function(value) {
+                    return value.toLocaleString() + ' €';
+                  }
                 }
               }
             }
           }
-        }
-      });
-    }
+        });
+        window.ChartManager.register('salesChart', salesChart);
+      }
 
-    // Product Chart (Doughnut)
-    const productCtx = document.getElementById('productChart');
-    if (productCtx) {
-      const productChart = new Chart(productCtx.getContext('2d'), {
-        type: 'doughnut',
-        data: {
-          labels: ['E85', 'Gazole B7', 'SP95-E10', 'GPLc'],
-          datasets: [{
-            data: [35, 30, 25, 10],
-            backgroundColor: [
-              '#10b981',
-              '#f59e0b',
-              '#3b82f6',
-              '#a855f7'
-            ],
-            borderWidth: 2,
-            borderColor: 'var(--card)'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-            legend: {
-              display: true,
-              position: 'bottom'
+      // Product Chart (Doughnut) - only if it doesn't already exist
+      const productCtx = document.getElementById('productChart');
+      if (productCtx && !window.ChartManager.has('productChart')) {
+        const productChart = new Chart(productCtx.getContext('2d'), {
+          type: 'doughnut',
+          data: {
+            labels: ['E85', 'Gazole B7', 'SP95-E10', 'GPLc'],
+            datasets: [{
+              data: [35, 30, 25, 10],
+              backgroundColor: [
+                '#10b981',
+                '#f59e0b',
+                '#3b82f6',
+                '#a855f7'
+              ],
+              borderWidth: 2,
+              borderColor: 'var(--card)'
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                display: true,
+                position: 'bottom'
+              }
             }
           }
+        });
+        window.ChartManager.register('productChart', productChart);
+      }
+    }
+
+    // Initialize charts when DOM is loaded
+    initializeCharts();
+
+
+    // ==========================================
+    // 10. CLOCK FUNCTIONALITY
+    // ==========================================
+    let timezone = null;
+    let offset = 0; // Timezone offset in milliseconds
+
+    // Function to fetch time from worldtimeapi.org
+    async function fetchTimeFromAPI() {
+      try {
+        const response = await fetch('http://worldtimeapi.org/api/ip');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+
+        // Extract datetime and timezone info
+        const apiDatetime = new Date(data.datetime);
+        timezone = data.timezone;
+
+        // Calculate the offset between server time and local time
+        const currentTime = new Date();
+        offset = apiDatetime.getTime() - currentTime.getTime();
+
+        // Update the clock display immediately
+        updateTimeDisplay();
+
+        // Set up interval to update time every second
+        setInterval(updateTimeDisplay, 1000);
+      } catch (error) {
+        console.error('Error fetching time from API:', error);
+        // Fallback to local time if API fails
+        offset = 0;
+        // Still update the display with local time
+        updateTimeDisplay();
+        setInterval(updateTimeDisplay, 1000);
+      }
+    }
+
+    // Function to format and display the time
+    function updateTimeDisplay() {
+      try {
+        // Get current time adjusted by the offset
+        const currentTime = new Date();
+        const adjustedTime = new Date(currentTime.getTime() + offset);
+
+        // Format time as HH:MM:SS
+        const hours = String(adjustedTime.getHours()).padStart(2, '0');
+        const minutes = String(adjustedTime.getMinutes()).padStart(2, '0');
+        const seconds = String(adjustedTime.getSeconds()).padStart(2, '0');
+        const timeString = `${hours}:${minutes}:${seconds}`;
+
+        // Format date as Day, Month DD, YYYY
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const dateString = adjustedTime.toLocaleDateString('fr-FR', options);
+
+        // Update the DOM elements - check if they exist before updating
+        const timeElement = document.getElementById('current-time');
+        const dateElement = document.getElementById('current-date');
+
+        if (timeElement) {
+          timeElement.textContent = timeString;
+        }
+        if (dateElement) {
+          dateElement.textContent = dateString.charAt(0).toUpperCase() + dateString.slice(1);
+        }
+      } catch (error) {
+        console.error('Error updating time display:', error);
+      }
+    }
+
+
+    // Initialize the clock when the page loads - show local time immediately as fallback
+    // Show local time immediately while API call is happening
+    updateTimeDisplay();
+    // Then fetch the accurate time from API
+    fetchTimeFromAPI();
+
+    // ==========================================
+    // 12. SEARCH BUTTON
+    // ==========================================
+    const searchBtn = document.getElementById('searchBtn');
+    if (searchBtn) {
+      searchBtn.addEventListener('click', () => {
+        const query = prompt('Rechercher:');
+        if (query) {
+          alert('Recherche pour: ' + query);
         }
       });
     }
-
-    // ==========================================
-    // 9. SEARCH BUTTON
-    // ==========================================
-    const searchBtn = document.getElementById('searchBtn');
-    searchBtn.addEventListener('click', () => {
-      const query = prompt('Rechercher:');
-      if (query) {
-        alert('Recherche pour: ' + query);
-      }
-    });
-
-    // ==========================================
-    // 10. NAVIGATION ACTIVE
-    // ==========================================
-    // Mettre à jour dynamiquement l'élément actif dans la navigation
-    document.addEventListener('DOMContentLoaded', function() {
-      // Trouver l'URL actuelle
-      const currentPath = window.location.pathname;
-      
-      // Trouver tous les liens de navigation
-      const navItems = document.querySelectorAll('.nav-item');
-      
-      // Retirer la classe 'active' de tous les éléments
-      navItems.forEach(item => item.classList.remove('active'));
-      
-      // Trouver le lien correspondant à l'URL actuelle et ajouter la classe 'active'
-      navItems.forEach(item => {
-        const link = item.querySelector('a');
-        if (link && link.getAttribute('href') === currentPath) {
-          item.classList.add('active');
-        }
-      });
-    });
   </script>
-  
+
   {% block extra_js %}{% endblock %}
 </body>
 </html>

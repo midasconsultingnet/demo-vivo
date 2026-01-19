@@ -533,9 +533,38 @@
   
   // Initialisation des graphiques
   document.addEventListener('DOMContentLoaded', function() {
+    // Détruire les graphiques existants s'ils sont gérés par le gestionnaire
+    window.ChartManager = window.ChartManager || {
+      charts: {},
+      register: function(id, chart) {
+        if (this.charts[id]) {
+          this.destroy(id);
+        }
+        this.charts[id] = chart;
+      },
+      destroy: function(id) {
+        if (this.charts[id]) {
+          try {
+            this.charts[id].destroy();
+          } catch(e) {
+            console.warn(`Could not destroy chart ${id}:`, e);
+          }
+          delete this.charts[id];
+        }
+      },
+      destroyAll: function() {
+        for (let id in this.charts) {
+          this.destroy(id);
+        }
+      },
+      has: function(id) {
+        return !!this.charts[id];
+      }
+    };
+
     // Graphique des ventes
     const salesCtx = document.getElementById('salesChart');
-    if (salesCtx) {
+    if (salesCtx && !window.ChartManager.has('salesChart')) {
       const salesChart = new Chart(salesCtx.getContext('2d'), {
         type: 'line',
         data: {
@@ -570,11 +599,12 @@
           }
         }
       });
+      window.ChartManager.register('salesChart', salesChart);
     }
 
     // Graphique des achats
     const purchaseCtx = document.getElementById('purchaseChart');
-    if (purchaseCtx) {
+    if (purchaseCtx && !window.ChartManager.has('purchaseChart')) {
       const purchaseChart = new Chart(purchaseCtx.getContext('2d'), {
         type: 'line',
         data: {
@@ -609,6 +639,7 @@
           }
         }
       });
+      window.ChartManager.register('purchaseChart', purchaseChart);
     }
   });
 </script>

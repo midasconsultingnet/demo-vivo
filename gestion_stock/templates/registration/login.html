@@ -437,8 +437,19 @@
   </div>
 
   <script>
-    // Animation de la carte au chargement
+    // Theme toggle functionality with localStorage persistence
     document.addEventListener('DOMContentLoaded', function() {
+      // Check for saved theme preference or default to dark mode
+      let isDark = localStorage.getItem('theme') !== 'light'; // Default to dark if no preference is set
+
+      // Apply saved theme on page load
+      if (isDark) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      // Animation de la carte au chargement
       const card = document.getElementById('loginCard');
       if (card) {
         card.style.opacity = '0';
@@ -450,19 +461,19 @@
           card.style.transform = 'translateY(0)';
         }, 100);
       }
-    });
 
-    // Auto-dismiss des alertes après 5 secondes
-    setTimeout(() => {
-      const alerts = document.querySelectorAll('.alert');
-      alerts.forEach(alert => {
-        alert.style.transition = 'opacity 0.5s';
-        alert.style.opacity = '0';
-        setTimeout(() => {
-          alert.style.display = 'none';
-        }, 500);
-      });
-    }, 5000);
+      // Auto-dismiss des alertes après 5 secondes
+      setTimeout(() => {
+        const alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+          alert.style.transition = 'opacity 0.5s';
+          alert.style.opacity = '0';
+          setTimeout(() => {
+            alert.style.display = 'none';
+          }, 500);
+        });
+      }, 5000);
+    });
   </script>
 </body>
 </html>
