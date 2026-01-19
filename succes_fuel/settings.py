@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from pathlib import Path
 import os
 import dj_database_url
+from decouple import config  # Add this import for python-decouple
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,13 +23,26 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-2dwv#0#b5-(*xq#xlg#juvo!rl2=fl*%apb8@9e_pl-c6(2e!l')
+SECRET_KEY = config('SECRET_KEY', default='django-insecure-2dwv#0#b5-(*xq#xlg#juvo!rl2=fl*%apb8@9e_pl-c6(2e!l')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 # Allow all hosts in production (Render assigns dynamic hostnames)
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,[::1]').split(',')
+
+# Security settings for production
+if not DEBUG:
+    # Enable SSL security features in production
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_HSTS_SECONDS = 31536000  # 1 year
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    SECURE_HSTS_PRELOAD = True
+
+    # More secure cookies
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
 
 
 # Application definition
@@ -80,7 +94,7 @@ WSGI_APPLICATION = 'succes_fuel.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL', 'postgresql://successfueldb:jYMF04yYR6BikVgzWcc4mYaMUpmDchoz@dpg-d5dpmf63jp1c73f157a0-a.frankfurt-postgres.render.com/vivo')
+        default=config('DATABASE_URL', default='sqlite:///db.sqlite3')
     )
 }
 
