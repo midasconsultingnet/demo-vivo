@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from .models import Utilisateur, Station
 
@@ -157,3 +157,6 @@ def custom_logout(request):
     """
     logout(request)
     return redirect('gestion_stock:login')
+
+def health_check(request):
+    return JsonResponse({'status': 'ok', 'healthy': True})

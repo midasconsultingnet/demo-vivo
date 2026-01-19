@@ -22,4 +22,7 @@ urlpatterns = [
     path('espace-gerant/', views.espace_gerant, name='espace_gerant'),
     path('espace-admin/', views.espace_admin, name='espace_admin'),
     path('espace-resp-zone/', views.espace_resp_zone, name='espace_resp_zone'),
+
+    # Health check endpoint
+    path('health/', views.health_check, name='health_check'),
 ]
