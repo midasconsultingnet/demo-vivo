@@ -4,69 +4,315 @@
 {% block title %}Tableau de Bord - SuccessFuel{% endblock %}
 
 {% block content %}
-<!-- Tableau de bord générique -->
-<div class="p-4">
-    <h2 class="fw-bold mb-4">Tableau de Bord</h2>
+<!-- Section 1: Stats Cards -->
+<h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Statistiques du jour</h2>
+<div class="grid grid-cols-4 mb-6">
+  <div class="stat-card">
+    <div class="stat-icon primary">
+      <i class="fa-solid fa-cart-shopping"></i>
+    </div>
+    <div class="stat-value">1,234</div>
+    <div class="stat-label">Ventes aujourd'hui</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon secondary">
+      <i class="fa-solid fa-euro-sign"></i>
+    </div>
+    <div class="stat-value">12,345 €</div>
+    <div class="stat-label">Revenus aujourd'hui</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon accent">
+      <i class="fa-solid fa-users"></i>
+    </div>
+    <div class="stat-value">567</div>
+    <div class="stat-label">Clients ce mois</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon purple">
+      <i class="fa-solid fa-face-smile"></i>
+    </div>
+    <div class="stat-value">98%</div>
+    <div class="stat-label">Satisfaction</div>
+  </div>
+</div>
 
-    <div class="row g-4">
-        <div class="col-md-4">
-            <div class="card stat-card">
-                <div class="card-body">
-                    <h5 class="card-title">Statistiques</h5>
-                    <p class="card-text">Consultez les statistiques de votre station</p>
-                    <a href="#" class="btn btn-primary">Voir détails</a>
-                </div>
-            </div>
-        </div>
+<!-- Section 2: Alerts -->
+<h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Composants: Alertes</h2>
+<div class="alert alert-info">
+  <i class="fa-solid fa-circle-info"></i>
+  <div>
+    <strong>Information</strong>
+    <p>Ceci est une alerte d'information avec des détails importants.</p>
+  </div>
+</div>
+<div class="alert alert-success">
+  <i class="fa-solid fa-circle-check"></i>
+  <div>
+    <strong>Succès</strong>
+    <p>Votre opération a été effectuée avec succès!</p>
+  </div>
+</div>
+<div class="alert alert-warning">
+  <i class="fa-solid fa-triangle-exclamation"></i>
+  <div>
+    <strong>Attention</strong>
+    <p>Stock faible sur plusieurs produits. Veuillez réapprovisionner.</p>
+  </div>
+</div>
+<div class="alert alert-error">
+  <i class="fa-solid fa-circle-xmark"></i>
+  <div>
+    <strong>Erreur</strong>
+    <p>Une erreur s'est produite lors de l'opération.</p>
+  </div>
+</div>
 
-        <div class="col-md-4">
-            <div class="card stat-card">
-                <div class="card-body">
-                    <h5 class="card-title">Stock</h5>
-                    <p class="card-text">Gérez votre inventaire et les niveaux de stock</p>
-                    <a href="#" class="btn btn-primary">Gérer le stock</a>
-                </div>
-            </div>
-        </div>
+<!-- Section 3: Tabs -->
+<h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Composants: Onglets</h2>
+<div class="card">
+  <div class="tabs">
+    <div class="tabs-list">
+      <button class="tab-trigger active" data-tab="tab1">Vue d'ensemble</button>
+      <button class="tab-trigger" data-tab="tab2">Statistiques</button>
+      <button class="tab-trigger" data-tab="tab3">Paramètres</button>
+    </div>
+    <div class="tab-content active" id="tab1">
+      <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem;">Vue d'ensemble</h3>
+      <p style="color: var(--muted-foreground);">Contenu de l'onglet vue d'ensemble. Ici vous pouvez afficher un résumé global de vos activités.</p>
+    </div>
+    <div class="tab-content" id="tab2">
+      <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem;">Statistiques détaillées</h3>
+      <p style="color: var(--muted-foreground);">Contenu de l'onglet statistiques avec des graphiques et analyses.</p>
+    </div>
+    <div class="tab-content" id="tab3">
+      <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem;">Paramètres</h3>
+      <p style="color: var(--muted-foreground);">Contenu de l'onglet paramètres pour configurer vos préférences.</p>
+    </div>
+  </div>
+</div>
 
-        <div class="col-md-4">
-            <div class="card stat-card">
-                <div class="card-body">
-                    <h5 class="card-title">Rapports</h5>
-                    <p class="card-text">Générez des rapports détaillés</p>
-                    <a href="#" class="btn btn-primary">Consulter</a>
-                </div>
-            </div>
-        </div>
+<!-- Section 4: Collapsibles -->
+<h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Composants: Collapsibles</h2>
+<div class="collapsible">
+  <button class="collapsible-trigger">
+    <span>Section 1: Informations générales</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+  <div class="collapsible-content">
+    <div class="collapsible-content-inner">
+      <p>Contenu de la première section collapsible. Cliquez sur l'en-tête pour ouvrir/fermer.</p>
+      <p style="margin-top: 0.5rem; color: var(--muted-foreground);">Vous pouvez mettre n'importe quel contenu ici: texte, formulaires, images, etc.</p>
+    </div>
+  </div>
+</div>
+
+<div class="collapsible">
+  <button class="collapsible-trigger">
+    <span>Section 2: Documentation</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+  <div class="collapsible-content">
+    <div class="collapsible-content-inner">
+      <p>Documentation technique et guides d'utilisation.</p>
+    </div>
+  </div>
+</div>
+
+<div class="collapsible">
+  <button class="collapsible-trigger">
+    <span>Section 3: FAQ</span>
+    <i class="fa-solid fa-chevron-down"></i>
+  </button>
+  <div class="collapsible-content">
+    <div class="collapsible-content-inner">
+      <p>Questions fréquemment posées et leurs réponses.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Section 5: Graphique -->
+<h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Graphiques de ventes</h2>
+<div class="grid grid-cols-2">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Ventes mensuelles</h3>
+      <p class="card-description">Évolution des ventes sur 6 mois</p>
+    </div>
+    <canvas id="salesChart" style="max-height: 300px;"></canvas>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Répartition par produit</h3>
+      <p class="card-description">Parts de marché par catégorie</p>
+    </div>
+    <canvas id="productChart" style="max-height: 300px;"></canvas>
+  </div>
+</div>
+
+<!-- Section 6: Table -->
+<h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Dernières transactions</h2>
+<div class="card">
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Client</th>
+          <th>Produit</th>
+          <th>Quantité</th>
+          <th>Prix</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>2025-01-19 14:30</td>
+          <td>Jean Dupont</td>
+          <td>Super Ethanol E85</td>
+          <td>45 L</td>
+          <td>67,50 €</td>
+          <td><span class="badge badge-success">Payé</span></td>
+        </tr>
+        <tr>
+          <td>2025-01-19 13:45</td>
+          <td>Marie Curie</td>
+          <td>Gazole B7</td>
+          <td>32 L</td>
+          <td>48,00 €</td>
+          <td><span class="badge badge-success">Payé</span></td>
+        </tr>
+        <tr>
+          <td>2025-01-19 12:20</td>
+          <td>Pierre Martin</td>
+          <td>SP95-E10</td>
+          <td>28 L</td>
+          <td>42,00 €</td>
+          <td><span class="badge badge-warning">En attente</span></td>
+        </tr>
+        <tr>
+          <td>2025-01-19 11:10</td>
+          <td>Lisa Johnson</td>
+          <td>GPLc</td>
+          <td>20 kg</td>
+          <td>30,00 €</td>
+          <td><span class="badge badge-success">Payé</span></td>
+        </tr>
+        <tr>
+          <td>2025-01-19 10:05</td>
+          <td>Paul Bernard</td>
+          <td>Super Ethanol E85</td>
+          <td>50 L</td>
+          <td>75,00 €</td>
+          <td><span class="badge badge-error">Annulé</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Section 7: Formulaire -->
+<h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Composants: Formulaire</h2>
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Ajouter une nouvelle vente</h3>
+    <p class="card-description">Remplissez les informations ci-dessous</p>
+  </div>
+  <form id="saleForm">
+    <div class="grid grid-cols-2">
+      <div class="form-group">
+        <label class="form-label">Nom du client</label>
+        <input type="text" class="form-control" placeholder="Jean Dupont" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" placeholder="jean.dupont@email.com">
+      </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Activité récente</h5>
-                </div>
-                <div class="card-body">
-                    <p>Aucune activité récente à afficher.</p>
-                </div>
-            </div>
-        </div>
+    <div class="grid grid-cols-2">
+      <div class="form-group">
+        <label class="form-label">Produit</label>
+        <select class="form-control" required>
+          <option value="">Sélectionner un produit</option>
+          <option value="e85">Super Ethanol E85</option>
+          <option value="gazole">Gazole B7</option>
+          <option value="sp95">SP95-E10</option>
+          <option value="gplc">GPLc</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Quantité (L)</label>
+        <input type="number" class="form-control" placeholder="45" required>
+      </div>
     </div>
+
+    <div class="form-group">
+      <label class="form-label">Notes additionnelles</label>
+      <textarea class="form-control" placeholder="Commentaires optionnels..."></textarea>
+    </div>
+
+    <div class="flex gap-4">
+      <button type="submit" class="btn btn-primary">
+        <i class="fa-solid fa-check"></i>
+        Enregistrer la vente
+      </button>
+      <button type="button" class="btn btn-outline" id="openModalBtn">
+        <i class="fa-solid fa-window-maximize"></i>
+        Ouvrir Modal
+      </button>
+      <button type="reset" class="btn btn-destructive">
+        <i class="fa-solid fa-xmark"></i>
+        Réinitialiser
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Section 8: Boutons -->
+<h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Composants: Boutons</h2>
+<div class="card">
+  <div class="flex gap-4" style="flex-wrap: wrap;">
+    <button class="btn btn-primary">
+      <i class="fa-solid fa-star"></i>
+      Bouton Primary
+    </button>
+    <button class="btn btn-secondary">
+      <i class="fa-solid fa-bolt"></i>
+      Bouton Secondary
+    </button>
+    <button class="btn btn-outline">
+      <i class="fa-solid fa-pen"></i>
+      Bouton Outline
+    </button>
+    <button class="btn btn-destructive">
+      <i class="fa-solid fa-trash"></i>
+      Bouton Destructive
+    </button>
+    <button class="btn-icon">
+      <i class="fa-solid fa-heart"></i>
+    </button>
+    <button class="btn-icon active">
+      <i class="fa-solid fa-bookmark"></i>
+    </button>
+  </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
+{{ block.super }}
 <script>
-    // Animation des cuves au chargement
-    document.addEventListener('DOMContentLoaded', function() {
-        const tankFills = document.querySelectorAll('.tank-fill');
-        tankFills.forEach(fill => {
-            const height = fill.style.height;
-            fill.style.height = '0%';
-            setTimeout(() => {
-                fill.style.height = height;
-            }, 100);
-        });
+  // Animation des cuves au chargement
+  document.addEventListener('DOMContentLoaded', function() {
+    const tankFills = document.querySelectorAll('.tank-fill');
+    tankFills.forEach(fill => {
+      const height = fill.style.height;
+      fill.style.height = '0%';
+      setTimeout(() => {
+        fill.style.height = height;
+      }, 100);
     });
+  });
 </script>
 {% endblock %}

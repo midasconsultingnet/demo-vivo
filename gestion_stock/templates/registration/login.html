@@ -2,333 +2,467 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion - SuccessFuel ERP</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion - SuccessFuel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* ========================================
+       VARIABLES CSS - THÈME
+    ======================================== */
+    :root {
+      --background: #fafafa;
+      --foreground: #1a1a1a;
+      --card: #ffffff;
+      --card-foreground: #1a1a1a;
+      --primary: #10b981;
+      --primary-foreground: #ffffff;
+      --secondary: #f59e0b;
+      --secondary-foreground: #1a1a1a;
+      --muted: #f3f4f6;
+      --muted-foreground: #6b7280;
+      --accent: #dbeafe;
+      --accent-foreground: #1e40af;
+      --destructive: #ef4444;
+      --destructive-foreground: #ffffff;
+      --border: #e5e7eb;
+      --input: #e5e7eb;
+      --ring: #10b981;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    .dark {
+      --background: #0f172a;
+      --foreground: #f1f5f9;
+      --card: #1e293b;
+      --card-foreground: #f1f5f9;
+      --primary: #10b981;
+      --primary-foreground: #0f172a;
+      --secondary: #f59e0b;
+      --secondary-foreground: #0f172a;
+      --muted: #334155;
+      --muted-foreground: #94a3b8;
+      --accent: #1e40af;
+      --accent-foreground: #dbeafe;
+      --destructive: #ef4444;
+      --destructive-foreground: #ffffff;
+      --border: #334155;
+      --input: #334155;
+    }
 
-    <!-- Google Material Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--background);
+      color: var(--foreground);
+      line-height: 1.6;
+      transition: background-color 0.3s, color 0.3s;
+    }
 
-    <style>
-        :root {
-            --primary: #38A169;
-            --primary-dark: #2F855A;
-            --bg-gradient-start: #2D3748;
-            --bg-gradient-end: #1A202C;
-        }
+    /* ========================================
+       PAGE LAYOUT
+    ======================================== */
+    .page-wrapper {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      width: 100%;
+    }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
+    .page-content {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
 
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+    /* ========================================
+       LOGIN CARD
+    ======================================== */
+    .login-container {
+      max-width: 500px;
+      width: 100%;
+      padding: 0;
+    }
 
-        .login-container {
-            max-width: 440px;
-            width: 100%;
-        }
+    .login-card {
+      background-color: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      box-shadow: var(--shadow-lg);
+      transition: all 0.3s ease;
+      width: 100%;
+    }
 
-        .login-card {
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
+    .login-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
 
-        .login-header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 2.5rem 2rem;
-            text-align: center;
-        }
+    .brand-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
 
-        .brand-icon {
-            width: 80px;
-            height: 80px;
-            background-color: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
-        }
+    .brand-icon i {
+      color: white;
+      font-size: 2rem;
+    }
 
-        .brand-icon .material-symbols-outlined {
-            font-size: 3rem;
-            color: white;
-        }
+    .login-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
 
-        .login-body {
-            padding: 2rem;
-        }
+    .login-subtitle {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+    }
 
-        .form-label {
-            font-weight: 600;
-            color: #2D3748;
-            margin-bottom: 0.5rem;
-        }
+    .login-body {
+      padding: 1rem 0;
+    }
 
-        .form-control {
-            border: 2px solid #E2E8F0;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            transition: all 0.3s;
-        }
+    /* ========================================
+       FORMULAIRE
+    ======================================== */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
 
-        .form-control:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 0.2rem rgba(56, 161, 105, 0.15);
-        }
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--foreground);
+    }
 
-        .input-group-text {
-            background-color: #F7FAFC;
-            border: 2px solid #E2E8F0;
-            border-right: none;
-        }
+    .form-control {
+      width: 100%;
+      padding: 0.625rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      background-color: var(--background);
+      color: var(--foreground);
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
 
-        .input-group .form-control {
-            border-left: none;
-        }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--ring);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+    }
 
-        .input-group:focus-within .input-group-text {
-            border-color: var(--primary);
-        }
+    /* ========================================
+       BOUTONS
+    ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      border-radius: 0.5rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+      text-decoration: none;
+      white-space: nowrap;
+    }
 
-        .btn-login {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            border: none;
-            color: white;
-            padding: 0.875rem;
-            font-weight: 600;
-            border-radius: 0.5rem;
-            transition: all 0.3s;
-            width: 100%;
-        }
+    .btn-primary {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+      width: 100%;
+    }
 
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(56, 161, 105, 0.3);
-        }
+    .btn-primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
 
-        .btn-login:active {
-            transform: translateY(0);
-        }
+    .btn-outline {
+      background-color: transparent;
+      border: 1px solid var(--border);
+      color: var(--foreground);
+    }
 
-        .alert {
-            border-radius: 0.5rem;
-            border: none;
-        }
+    .btn-outline:hover {
+      background-color: var(--muted);
+    }
 
-        .alert-danger {
-            background-color: #FED7D7;
-            color: #742A2A;
-        }
+    /* ========================================
+       ALERT
+    ======================================== */
+    .alert {
+      padding: 1rem 1.25rem;
+      border-radius: 0.5rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
 
-        .form-check-input:checked {
-            background-color: var(--primary);
-            border-color: var(--primary);
-        }
+    .alert-info {
+      background-color: #dbeafe;
+      color: #1e40af;
+      border: 1px solid #93c5fd;
+    }
 
-        .footer-text {
-            text-align: center;
-            margin-top: 1.5rem;
-            color: #718096;
-            font-size: 0.875rem;
-        }
+    .alert-success {
+      background-color: #d1fae5;
+      color: #065f46;
+      border: 1px solid #6ee7b7;
+    }
 
-        .divider {
-            display: flex;
-            align-items: center;
-            text-align: center;
-            margin: 1.5rem 0;
-        }
+    .alert-warning {
+      background-color: #fef3c7;
+      color: #92400e;
+      border: 1px solid #fcd34d;
+    }
 
-        .divider::before,
-        .divider::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1px solid #E2E8F0;
-        }
+    .alert-error {
+      background-color: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
 
-        .divider span {
-            padding: 0 1rem;
-            color: #A0AEC0;
-            font-size: 0.875rem;
-        }
+    .dark .alert-info {
+      background-color: rgba(30, 64, 175, 0.2);
+      color: #93c5fd;
+      border-color: rgba(147, 197, 253, 0.3);
+    }
 
-        .forgot-password {
-            color: var(--primary);
-            text-decoration: none;
-            font-size: 0.875rem;
-            font-weight: 500;
-        }
+    .dark .alert-success {
+      background-color: rgba(6, 95, 70, 0.2);
+      color: #6ee7b7;
+      border-color: rgba(110, 231, 183, 0.3);
+    }
 
-        .forgot-password:hover {
-            color: var(--primary-dark);
-            text-decoration: underline;
-        }
-    </style>
+    .dark .alert-warning {
+      background-color: rgba(146, 64, 14, 0.2);
+      color: #fcd34d;
+      border-color: rgba(252, 211, 77, 0.3);
+    }
+
+    .dark .alert-error {
+      background-color: rgba(153, 27, 27, 0.2);
+      color: #fca5a5;
+      border-color: rgba(252, 165, 165, 0.3);
+    }
+
+    /* ========================================
+       DIVIDER
+    ======================================== */
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 1.5rem 0;
+      color: var(--muted-foreground);
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .divider span {
+      padding: 0 1rem;
+      font-size: 0.875rem;
+    }
+
+    /* ========================================
+       FOOTER
+    ======================================== */
+    .login-footer {
+      text-align: center;
+      margin-top: auto;
+      padding: 1.5rem;
+      color: var(--muted-foreground);
+      font-size: 0.75rem;
+      width: 100%;
+    }
+
+    /* ========================================
+       UTILITIES
+    ======================================== */
+    .d-flex {
+      display: flex;
+    }
+
+    .justify-content-between {
+      justify-content: space-between;
+    }
+
+    .align-items-center {
+      align-items: center;
+    }
+
+    .mb-4 {
+      margin-bottom: 1rem;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-muted {
+      color: var(--muted-foreground);
+    }
+
+    .small {
+      font-size: 0.875rem;
+    }
+  </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <!-- Header -->
-            <div class="login-header">
-                <div class="brand-icon">
-                    <span class="material-symbols-outlined">local_gas_station</span>
-                </div>
-                <h3 class="fw-bold mb-2">SuccessFuel ERP</h3>
-                <p class="mb-0 opacity-75">Système de gestion de station-service</p>
+  <div class="page-wrapper">
+    <div class="page-content">
+      <div class="login-container">
+        <div class="login-card" id="loginCard">
+          <div class="login-header">
+            <div class="brand-icon">
+              <i class="fa-solid fa-gas-pump"></i>
             </div>
+            <h2 class="login-title">SuccessFuel ERP</h2>
+            <p class="login-subtitle">Système de gestion de station-service</p>
+          </div>
 
-            <!-- Body -->
-            <div class="login-body">
-                <h5 class="fw-bold text-center mb-4">Connexion</h5>
+          <div class="login-body">
+            <h3 class="text-center mb-4">Connexion</h3>
 
-                <!-- Messages d'erreur -->
-                {% if messages %}
-                    {% for message in messages %}
-                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                            <div class="d-flex align-items-center">
-                                <span class="material-symbols-outlined me-2">
-                                    {% if message.tags == 'error' %}error{% else %}info{% endif %}
-                                </span>
-                                <span>{{ message }}</span>
-                            </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-
-                <!-- Formulaire de connexion -->
-                <form method="post" action="{% url 'gestion_stock:login' %}">
-                    {% csrf_token %}
-
-                    <!-- Nom d'utilisateur -->
-                    <div class="mb-3">
-                        <label for="username" class="form-label">
-                            <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">person</span>
-                            Nom d'utilisateur
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white">
-                                <span class="material-symbols-outlined text-muted">account_circle</span>
-                            </span>
-                            <input
-                                type="text"
-                                class="form-control"
-                                id="username"
-                                name="username"
-                                placeholder="Entrez votre nom d'utilisateur"
-                                required
-                                autofocus
-                                value="{{ username|default:'' }}"
-                            >
-                        </div>
-                    </div>
-
-                    <!-- Mot de passe -->
-                    <div class="mb-3">
-                        <label for="password" class="form-label">
-                            <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">lock</span>
-                            Mot de passe
-                        </label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-white">
-                                <span class="material-symbols-outlined text-muted">key</span>
-                            </span>
-                            <input
-                                type="password"
-                                class="form-control"
-                                id="password"
-                                name="password"
-                                placeholder="Entrez votre mot de passe"
-                                required
-                            >
-                        </div>
-                    </div>
-
-                    <!-- Se souvenir de moi & Mot de passe oublié -->
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                            <label class="form-check-label" for="remember">
-                                Se souvenir de moi
-                            </label>
-                        </div>
-                        <a href="#" class="forgot-password">Mot de passe oublié?</a>
-                    </div>
-
-                    <!-- Bouton de connexion -->
-                    <button type="submit" class="btn btn-login">
-                        <span class="material-symbols-outlined" style="vertical-align: middle; margin-right: 0.5rem;">login</span>
-                        Se connecter
-                    </button>
-                </form>
-
-                <!-- Divider -->
-                <div class="divider">
-                    <span>OU</span>
+            <!-- Messages d'erreur -->
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert {% if message.tags == 'error' or message.tags == 'danger' %}alert-error{% elif message.tags == 'success' %}alert-success{% elif message.tags == 'warning' %}alert-warning{% else %}alert-info{% endif %}">
+                  <i class="fa-solid {% if message.tags == 'error' or message.tags == 'danger' %}fa-triangle-exclamation{% elif message.tags == 'success' %}fa-check-circle{% elif message.tags == 'warning' %}fa-triangle-exclamation{% else %}fa-info-circle{% endif %}"></i>
+                  <div>
+                    <strong>{% if message.tags == 'error' or message.tags == 'danger' %}Erreur{% elif message.tags == 'success' %}Succès{% elif message.tags == 'warning' %}Avertissement{% else %}Info{% endif %}</strong>
+                    <p>{{ message }}</p>
+                  </div>
                 </div>
+              {% endfor %}
+            {% endif %}
 
-                <!-- Aide -->
-                <div class="text-center">
-                    <p class="mb-0 text-muted small">
-                        <span class="material-symbols-outlined" style="font-size: 1rem; vertical-align: middle;">help</span>
-                        Besoin d'aide?
-                        <a href="#" class="forgot-password">Contactez le support</a>
-                    </p>
+            <!-- Formulaire de connexion -->
+            <form method="post" action="{% url 'gestion_stock:login' %}">
+              {% csrf_token %}
+
+              <!-- Nom d'utilisateur -->
+              <div class="form-group">
+                <label for="username" class="form-label">
+                  <i class="fa-solid fa-user"></i>
+                  Nom d'utilisateur
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  placeholder="Entrez votre nom d'utilisateur"
+                  required
+                  autofocus
+                  value="{{ username|default:'' }}"
+                >
+              </div>
+
+              <!-- Mot de passe -->
+              <div class="form-group">
+                <label for="password" class="form-label">
+                  <i class="fa-solid fa-lock"></i>
+                  Mot de passe
+                </label>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Entrez votre mot de passe"
+                  required
+                >
+              </div>
+
+              <!-- Se souvenir de moi -->
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="remember" name="remember">
+                  <label class="form-check-label" for="remember">
+                    Se souvenir de moi
+                  </label>
                 </div>
-            </div>
-        </div>
+                <a href="#" class="text-muted small">Mot de passe oublié?</a>
+              </div>
 
-        <!-- Footer -->
-        <div class="footer-text">
-            <p class="mb-1">© 2025 SuccessFuel. Tous droits réservés.</p>
-            <p class="mb-0" style="font-size: 0.75rem;">Version 1.0.0</p>
+              <!-- Bouton de connexion -->
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                Se connecter
+              </button>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Footer -->
+    <div class="login-footer">
+      <p class="mb-1">© 2025 SuccessFuel. Tous droits réservés.</p>
+      <p class="mb-0">Version 1.0.0</p>
+    </div>
+  </div>
 
-    <!-- Animation au chargement -->
-    <script>
-        // Animation de la carte au chargement
-        document.addEventListener('DOMContentLoaded', function() {
-            const card = document.querySelector('.login-card');
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
+  <script>
+    // Animation de la carte au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+      const card = document.getElementById('loginCard');
+      if (card) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
 
-            setTimeout(() => {
-                card.style.transition = 'all 0.5s ease';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-            }, 100);
-        });
-
-        // Auto-dismiss des alertes après 5 secondes
         setTimeout(() => {
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => {
-                const bsAlert = new bootstrap.Alert(alert);
-                bsAlert.close();
-            });
-        }, 5000);
-    </script>
+          card.style.transition = 'all 0.5s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, 100);
+      }
+    });
+
+    // Auto-dismiss des alertes après 5 secondes
+    setTimeout(() => {
+      const alerts = document.querySelectorAll('.alert');
+      alerts.forEach(alert => {
+        alert.style.transition = 'opacity 0.5s';
+        alert.style.opacity = '0';
+        setTimeout(() => {
+          alert.style.display = 'none';
+        }, 500);
+      });
+    }, 5000);
+  </script>
 </body>
 </html>

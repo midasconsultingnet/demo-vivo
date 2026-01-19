@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}SuccessFuel Dashboard{% endblock %}</title>
+  <title>SuccessFuel - Kit de Composants UI</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
   <style>
@@ -387,10 +387,6 @@
       border-radius: 0.75rem;
       padding: 1.5rem;
       transition: all 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
     }
 
     .stat-card:hover {
@@ -401,7 +397,7 @@
     .stat-value {
       font-size: 2rem;
       font-weight: 700;
-      margin: 0.75rem 0 0.375rem 0;
+      margin-bottom: 0.375rem;
       color: var(--foreground);
     }
 
@@ -409,7 +405,6 @@
       font-size: 0.875rem;
       color: var(--muted-foreground);
       font-weight: 500;
-      margin: 0;
     }
 
     .stat-icon {
@@ -420,7 +415,7 @@
       align-items: center;
       justify-content: center;
       font-size: 1.5rem;
-      margin: 0 auto 1rem auto;
+      margin-bottom: 1rem;
     }
 
     .stat-icon.primary {
@@ -441,26 +436,6 @@
     .stat-icon.purple {
       background-color: rgba(168, 85, 247, 0.1);
       color: #a855f7;
-    }
-
-    /* ========================================
-       ACTION BUTTONS
-    ======================================== */
-    .action-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      text-decoration: none;
-      color: inherit;
-      transition: all 0.2s;
-    }
-
-    .action-btn:hover {
-      text-decoration: none;
-      color: inherit;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
     }
 
     /* ========================================
@@ -688,7 +663,7 @@
       border-radius: 50%;
       width: 18px;
       height: 18px;
-      font-size: 0.65rem;
+      font-size: 0.625rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -998,11 +973,10 @@
       display: block;
     }
   </style>
-  {% block extra_css %}{% endblock %}
 </head>
 <body>
   <div class="app-layout">
-
+    
     <!-- ========================================
          SIDEBAR
     ======================================== -->
@@ -1011,10 +985,8 @@
         <div class="logo">SF</div>
         <div class="logo-text">SuccessFuel</div>
       </div>
-
+      
       <nav class="sidebar-nav">
-        {% block sidebar_nav %}
-        <!-- Navigation par défaut -->
         <a href="#" class="nav-item active">
           <i class="fa-solid fa-chart-line"></i>
           <span>Dashboard</span>
@@ -1039,15 +1011,14 @@
           <i class="fa-solid fa-gear"></i>
           <span>Paramètres</span>
         </a>
-        {% endblock %}
       </nav>
-
+      
       <div class="sidebar-footer">
         <div class="user-profile">
-          <div class="avatar">{% if user.utilisateur %}{{ user.utilisateur.prenom|first|upper }}{{ user.utilisateur.nom|first|upper }}{% else %}AU{% endif %}</div>
+          <div class="avatar">AU</div>
           <div class="user-details">
-            <div class="user-name">{% if user.utilisateur %}{{ user.utilisateur.prenom }} {{ user.utilisateur.nom }}{% else %}Utilisateur anonyme{% endif %}</div>
-            <div class="user-company">{% if user.utilisateur %}{{ user.utilisateur.profil.libelle }}{% else %}Invité{% endif %}</div>
+            <div class="user-name">Admin User</div>
+            <div class="user-company">Compagnie Alpha</div>
           </div>
         </div>
       </div>
@@ -1057,24 +1028,24 @@
          MAIN WRAPPER
     ======================================== -->
     <div class="main-wrapper">
-
+      
       <!-- HEADER -->
       <header class="header">
         <div class="header-left">
           <button class="btn-icon" id="toggleSidebar">
             <i class="fa-solid fa-bars"></i>
           </button>
-
+          
           <button class="btn-icon">
             <i class="fa-solid fa-gas-pump"></i>
           </button>
         </div>
-
+        
         <div class="header-right">
           <button class="btn-icon" id="searchBtn">
             <i class="fa-solid fa-magnifying-glass"></i>
           </button>
-
+          
           <!-- Notifications Dropdown -->
           <div class="dropdown">
             <button class="btn-icon" id="notifBtn">
@@ -1099,36 +1070,18 @@
               </div>
             </div>
           </div>
-
+          
           <button class="btn-icon" id="themeToggle">
             <i class="fa-solid fa-moon"></i>
           </button>
-
+          
           <!-- User Dropdown -->
           <div class="dropdown">
-            <div class="avatar" id="userBtn" style="cursor: pointer;">
-              {% if user.utilisateur %}
-                {{ user.utilisateur.prenom|first|upper }}{{ user.utilisateur.nom|first|upper }}
-              {% else %}
-                AU
-              {% endif %}
-            </div>
+            <div class="avatar" id="userBtn" style="cursor: pointer;">AU</div>
             <div class="dropdown-menu" id="userMenu">
               <div class="dropdown-header">
-                <div style="font-weight: 600; font-size: 0.875rem;">
-                  {% if user.utilisateur %}
-                    {{ user.utilisateur.prenom }} {{ user.utilisateur.nom }}
-                  {% else %}
-                    Utilisateur anonyme
-                  {% endif %}
-                </div>
-                <div style="font-size: 0.75rem; color: var(--muted-foreground);">
-                  {% if user.email %}
-                    {{ user.email }}
-                  {% else %}
-                    Aucune adresse email
-                  {% endif %}
-                </div>
+                <div style="font-weight: 600; font-size: 0.875rem;">Admin User</div>
+                <div style="font-size: 0.75rem; color: var(--muted-foreground);">admin@successfuel.com</div>
               </div>
               <div class="dropdown-divider"></div>
               <div class="dropdown-item">
@@ -1153,9 +1106,302 @@
            MAIN CONTENT
       ======================================== -->
       <main class="container">
-        {% block content %}
-        <!-- Le contenu spécifique à chaque page ira ici -->
-        {% endblock %}
+        
+        <!-- SECTION 1: Stats Cards -->
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Statistiques du jour</h2>
+        <div class="grid grid-cols-4 mb-6">
+          <div class="stat-card">
+            <div class="stat-icon primary">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <div class="stat-value">1,234</div>
+            <div class="stat-label">Ventes aujourd'hui</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon secondary">
+              <i class="fa-solid fa-euro-sign"></i>
+            </div>
+            <div class="stat-value">12,345 €</div>
+            <div class="stat-label">Revenus aujourd'hui</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon accent">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <div class="stat-value">567</div>
+            <div class="stat-label">Clients ce mois</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon purple">
+              <i class="fa-solid fa-face-smile"></i>
+            </div>
+            <div class="stat-value">98%</div>
+            <div class="stat-label">Satisfaction</div>
+          </div>
+        </div>
+
+        <!-- SECTION 2: Alerts -->
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem;">Composants: Alertes</h2>
+        <div class="alert alert-info">
+          <i class="fa-solid fa-circle-info"></i>
+          <div>
+            <strong>Information</strong>
+            <p>Ceci est une alerte d'information avec des détails importants.</p>
+          </div>
+        </div>
+        <div class="alert alert-success">
+          <i class="fa-solid fa-circle-check"></i>
+          <div>
+            <strong>Succès</strong>
+            <p>Votre opération a été effectuée avec succès!</p>
+          </div>
+        </div>
+        <div class="alert alert-warning">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+          <div>
+            <strong>Attention</strong>
+            <p>Stock faible sur plusieurs produits. Veuillez réapprovisionner.</p>
+          </div>
+        </div>
+        <div class="alert alert-error">
+          <i class="fa-solid fa-circle-xmark"></i>
+          <div>
+            <strong>Erreur</strong>
+            <p>Une erreur s'est produite lors de l'opération.</p>
+          </div>
+        </div>
+
+        <!-- SECTION 3: Tabs -->
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Composants: Onglets</h2>
+        <div class="card">
+          <div class="tabs">
+            <div class="tabs-list">
+              <button class="tab-trigger active" data-tab="tab1">Vue d'ensemble</button>
+              <button class="tab-trigger" data-tab="tab2">Statistiques</button>
+              <button class="tab-trigger" data-tab="tab3">Paramètres</button>
+            </div>
+            <div class="tab-content active" id="tab1">
+              <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem;">Vue d'ensemble</h3>
+              <p style="color: var(--muted-foreground);">Contenu de l'onglet vue d'ensemble. Ici vous pouvez afficher un résumé global de vos activités.</p>
+            </div>
+            <div class="tab-content" id="tab2">
+              <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem;">Statistiques détaillées</h3>
+              <p style="color: var(--muted-foreground);">Contenu de l'onglet statistiques avec des graphiques et analyses.</p>
+            </div>
+            <div class="tab-content" id="tab3">
+              <h3 style="font-size: 1.125rem; font-weight: 600; margin-bottom: 0.75rem;">Paramètres</h3>
+              <p style="color: var(--muted-foreground);">Contenu de l'onglet paramètres pour configurer vos préférences.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 4: Collapsibles -->
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Composants: Collapsibles</h2>
+        <div class="collapsible">
+          <button class="collapsible-trigger">
+            <span>Section 1: Informations générales</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="collapsible-content">
+            <div class="collapsible-content-inner">
+              <p>Contenu de la première section collapsible. Cliquez sur l'en-tête pour ouvrir/fermer.</p>
+              <p style="margin-top: 0.5rem; color: var(--muted-foreground);">Vous pouvez mettre n'importe quel contenu ici: texte, formulaires, images, etc.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-trigger">
+            <span>Section 2: Documentation</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="collapsible-content">
+            <div class="collapsible-content-inner">
+              <p>Documentation technique et guides d'utilisation.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="collapsible">
+          <button class="collapsible-trigger">
+            <span>Section 3: FAQ</span>
+            <i class="fa-solid fa-chevron-down"></i>
+          </button>
+          <div class="collapsible-content">
+            <div class="collapsible-content-inner">
+              <p>Questions fréquemment posées et leurs réponses.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION 5: Graphique -->
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Graphiques de ventes</h2>
+        <div class="grid grid-cols-2">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Ventes mensuelles</h3>
+              <p class="card-description">Évolution des ventes sur 6 mois</p>
+            </div>
+            <canvas id="salesChart" style="max-height: 300px;"></canvas>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Répartition par produit</h3>
+              <p class="card-description">Parts de marché par catégorie</p>
+            </div>
+            <canvas id="productChart" style="max-height: 300px;"></canvas>
+          </div>
+        </div>
+
+        <!-- SECTION 6: Table -->
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Dernières transactions</h2>
+        <div class="card">
+          <div class="table-container">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Client</th>
+                  <th>Produit</th>
+                  <th>Quantité</th>
+                  <th>Prix</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>2025-01-19 14:30</td>
+                  <td>Jean Dupont</td>
+                  <td>Super Ethanol E85</td>
+                  <td>45 L</td>
+                  <td>67,50 €</td>
+                  <td><span class="badge badge-success">Payé</span></td>
+                </tr>
+                <tr>
+                  <td>2025-01-19 13:45</td>
+                  <td>Marie Curie</td>
+                  <td>Gazole B7</td>
+                  <td>32 L</td>
+                  <td>48,00 €</td>
+                  <td><span class="badge badge-success">Payé</span></td>
+                </tr>
+                <tr>
+                  <td>2025-01-19 12:20</td>
+                  <td>Pierre Martin</td>
+                  <td>SP95-E10</td>
+                  <td>28 L</td>
+                  <td>42,00 €</td>
+                  <td><span class="badge badge-warning">En attente</span></td>
+                </tr>
+                <tr>
+                  <td>2025-01-19 11:10</td>
+                  <td>Lisa Johnson</td>
+                  <td>GPLc</td>
+                  <td>20 kg</td>
+                  <td>30,00 €</td>
+                  <td><span class="badge badge-success">Payé</span></td>
+                </tr>
+                <tr>
+                  <td>2025-01-19 10:05</td>
+                  <td>Paul Bernard</td>
+                  <td>Super Ethanol E85</td>
+                  <td>50 L</td>
+                  <td>75,00 €</td>
+                  <td><span class="badge badge-error">Annulé</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- SECTION 7: Formulaire -->
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Composants: Formulaire</h2>
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Ajouter une nouvelle vente</h3>
+            <p class="card-description">Remplissez les informations ci-dessous</p>
+          </div>
+          <form id="saleForm">
+            <div class="grid grid-cols-2">
+              <div class="form-group">
+                <label class="form-label">Nom du client</label>
+                <input type="text" class="form-control" placeholder="Jean Dupont" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" placeholder="jean.dupont@email.com">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2">
+              <div class="form-group">
+                <label class="form-label">Produit</label>
+                <select class="form-control" required>
+                  <option value="">Sélectionner un produit</option>
+                  <option value="e85">Super Ethanol E85</option>
+                  <option value="gazole">Gazole B7</option>
+                  <option value="sp95">SP95-E10</option>
+                  <option value="gplc">GPLc</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Quantité (L)</label>
+                <input type="number" class="form-control" placeholder="45" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Notes additionnelles</label>
+              <textarea class="form-control" placeholder="Commentaires optionnels..."></textarea>
+            </div>
+
+            <div class="flex gap-4">
+              <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-check"></i>
+                Enregistrer la vente
+              </button>
+              <button type="button" class="btn btn-outline" id="openModalBtn">
+                <i class="fa-solid fa-window-maximize"></i>
+                Ouvrir Modal
+              </button>
+              <button type="reset" class="btn btn-destructive">
+                <i class="fa-solid fa-xmark"></i>
+                Réinitialiser
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- SECTION 8: Boutons -->
+        <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; margin-top: 2rem;">Composants: Boutons</h2>
+        <div class="card">
+          <div class="flex gap-4" style="flex-wrap: wrap;">
+            <button class="btn btn-primary">
+              <i class="fa-solid fa-star"></i>
+              Bouton Primary
+            </button>
+            <button class="btn btn-secondary">
+              <i class="fa-solid fa-bolt"></i>
+              Bouton Secondary
+            </button>
+            <button class="btn btn-outline">
+              <i class="fa-solid fa-pen"></i>
+              Bouton Outline
+            </button>
+            <button class="btn btn-destructive">
+              <i class="fa-solid fa-trash"></i>
+              Bouton Destructive
+            </button>
+            <button class="btn-icon">
+              <i class="fa-solid fa-heart"></i>
+            </button>
+            <button class="btn-icon active">
+              <i class="fa-solid fa-bookmark"></i>
+            </button>
+          </div>
+        </div>
+
       </main>
     </div>
 
@@ -1175,7 +1421,7 @@
         </div>
         <div class="modal-body">
           <p style="margin-bottom: 1rem;">Ceci est un exemple de modal fonctionnel. Vous pouvez y mettre n'importe quel contenu : formulaires, images, texte, etc.</p>
-
+          
           <div class="form-group">
             <label class="form-label">Champ de saisie</label>
             <input type="text" class="form-control" placeholder="Entrez une valeur">
@@ -1253,7 +1499,7 @@
       trigger.addEventListener('click', (e) => {
         e.stopPropagation();
         menu.classList.toggle('active');
-
+        
         // Close other dropdowns
         document.querySelectorAll('.dropdown-menu').forEach(m => {
           if (m !== menu) m.classList.remove('active');
@@ -1275,8 +1521,7 @@
 
     // Logout action
     document.getElementById('logoutBtn').addEventListener('click', () => {
-      // Rediriger vers la page de déconnexion
-      window.location.href = "{% url 'gestion_stock:logout' %}";
+      alert('Déconnexion...');
     });
 
     // ==========================================
@@ -1295,18 +1540,15 @@
       modalOverlay.classList.remove('active');
     }
 
-    // Vérifier que tous les éléments existent avant d'ajouter les écouteurs d'événements
-    if (openModalBtn && modalOverlay && closeModalBtn && cancelModalBtn) {
-      openModalBtn.addEventListener('click', openModal);
-      closeModalBtn.addEventListener('click', closeModal);
-      cancelModalBtn.addEventListener('click', closeModal);
+    openModalBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    cancelModalBtn.addEventListener('click', closeModal);
 
-      modalOverlay.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) {
-          closeModal();
-        }
-      });
-    }
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) {
+        closeModal();
+      }
+    });
 
     // ==========================================
     // 5. TABS
@@ -1317,11 +1559,11 @@
     tabTriggers.forEach(trigger => {
       trigger.addEventListener('click', () => {
         const targetTab = trigger.getAttribute('data-tab');
-
+        
         // Remove active class from all
         tabTriggers.forEach(t => t.classList.remove('active'));
         tabContents.forEach(c => c.classList.remove('active'));
-
+        
         // Add active to clicked
         trigger.classList.add('active');
         document.getElementById(targetTab).classList.add('active');
@@ -1335,7 +1577,7 @@
 
     collapsibles.forEach(collapsible => {
       const trigger = collapsible.querySelector('.collapsible-trigger');
-
+      
       trigger.addEventListener('click', () => {
         collapsible.classList.toggle('open');
       });
@@ -1355,77 +1597,73 @@
     // ==========================================
     // 8. CHARTS (Chart.js)
     // ==========================================
-
+    
     // Sales Chart (Line)
-    const salesCtx = document.getElementById('salesChart');
-    if (salesCtx) {
-      const salesChart = new Chart(salesCtx.getContext('2d'), {
-        type: 'line',
-        data: {
-          labels: ['Août', 'Sept', 'Oct', 'Nov', 'Déc', 'Jan'],
-          datasets: [{
-            label: 'Ventes (€)',
-            data: [12000, 19000, 15000, 22000, 18000, 25000],
-            borderColor: '#10b981',
-            backgroundColor: 'rgba(16, 185, 129, 0.1)',
-            tension: 0.4,
-            fill: true
-          }]
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(salesCtx, {
+      type: 'line',
+      data: {
+        labels: ['Août', 'Sept', 'Oct', 'Nov', 'Déc', 'Jan'],
+        datasets: [{
+          label: 'Ventes (€)',
+          data: [12000, 19000, 15000, 22000, 18000, 25000],
+          borderColor: '#10b981',
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom'
+          }
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-            legend: {
-              display: true,
-              position: 'bottom'
-            }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: {
-                callback: function(value) {
-                  return value.toLocaleString() + ' €';
-                }
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return value.toLocaleString() + ' €';
               }
             }
           }
         }
-      });
-    }
+      }
+    });
 
     // Product Chart (Doughnut)
-    const productCtx = document.getElementById('productChart');
-    if (productCtx) {
-      const productChart = new Chart(productCtx.getContext('2d'), {
-        type: 'doughnut',
-        data: {
-          labels: ['E85', 'Gazole B7', 'SP95-E10', 'GPLc'],
-          datasets: [{
-            data: [35, 30, 25, 10],
-            backgroundColor: [
-              '#10b981',
-              '#f59e0b',
-              '#3b82f6',
-              '#a855f7'
-            ],
-            borderWidth: 2,
-            borderColor: 'var(--card)'
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: true,
-          plugins: {
-            legend: {
-              display: true,
-              position: 'bottom'
-            }
+    const productCtx = document.getElementById('productChart').getContext('2d');
+    const productChart = new Chart(productCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['E85', 'Gazole B7', 'SP95-E10', 'GPLc'],
+        datasets: [{
+          data: [35, 30, 25, 10],
+          backgroundColor: [
+            '#10b981',
+            '#f59e0b',
+            '#3b82f6',
+            '#a855f7'
+          ],
+          borderWidth: 2,
+          borderColor: 'var(--card)'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom'
           }
         }
-      });
-    }
+      }
+    });
 
     // ==========================================
     // 9. SEARCH BUTTON
@@ -1438,30 +1676,6 @@
       }
     });
 
-    // ==========================================
-    // 10. NAVIGATION ACTIVE
-    // ==========================================
-    // Mettre à jour dynamiquement l'élément actif dans la navigation
-    document.addEventListener('DOMContentLoaded', function() {
-      // Trouver l'URL actuelle
-      const currentPath = window.location.pathname;
-      
-      // Trouver tous les liens de navigation
-      const navItems = document.querySelectorAll('.nav-item');
-      
-      // Retirer la classe 'active' de tous les éléments
-      navItems.forEach(item => item.classList.remove('active'));
-      
-      // Trouver le lien correspondant à l'URL actuelle et ajouter la classe 'active'
-      navItems.forEach(item => {
-        const link = item.querySelector('a');
-        if (link && link.getAttribute('href') === currentPath) {
-          item.classList.add('active');
-        }
-      });
-    });
   </script>
-  
-  {% block extra_js %}{% endblock %}
 </body>
 </html>
