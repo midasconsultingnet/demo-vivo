@@ -23,6 +23,12 @@ urlpatterns = [
     path('espace-admin/', views.espace_admin, name='espace_admin'),
     path('espace-resp-zone/', views.espace_resp_zone, name='espace_resp_zone'),
 
+    # Pages spécifiques pour le gérant de station
+    path('mes-stations/', views.mes_stations, name='mes_stations'),
+    path('approvisionnements/', views.approvisionnements, name='approvisionnements'),
+    path('ventes/', views.ventes, name='ventes'),
+    path('stock/', views.stock, name='stock'),
+
     # Health check endpoint
     path('health/', views.health_check, name='health_check'),
 ]

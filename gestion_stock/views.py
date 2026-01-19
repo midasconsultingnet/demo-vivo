@@ -160,3 +160,73 @@ def custom_logout(request):
 
 def health_check(request):
     return JsonResponse({'status': 'ok', 'healthy': True})
+
+
+@login_required
+def mes_stations(request):
+    """
+    Vue pour la gestion des stations par le gérant
+    """
+    # Vérifier que l'utilisateur est un gérant de station
+    if not hasattr(request.user, 'utilisateur') or request.user.utilisateur.profil.code != 'GERANT_STATION':
+        return HttpResponseForbidden("Accès non autorisé")
+
+    # Récupérer les stations gérées par ce gérant
+    stations = request.user.utilisateur.stations_gerees.all()
+
+    context = {
+        'stations': stations,
+        'titre_page': 'Mes Stations'
+    }
+    return render(request, 'gestion_stock/mes_stations.html', context)
+
+
+@login_required
+def approvisionnements(request):
+    """
+    Vue pour la gestion des approvisionnements
+    """
+    # Vérifier que l'utilisateur est un gérant de station
+    if not hasattr(request.user, 'utilisateur') or request.user.utilisateur.profil.code != 'GERANT_STATION':
+        return HttpResponseForbidden("Accès non autorisé")
+
+    context = {
+        'titre_page': 'Approvisionnements'
+    }
+    return render(request, 'gestion_stock/approvisionnements.html', context)
+
+
+@login_required
+def ventes(request):
+    """
+    Vue pour la gestion des ventes
+    """
+    # Vérifier que l'utilisateur est un gérant de station
+    if not hasattr(request.user, 'utilisateur') or request.user.utilisateur.profil.code != 'GERANT_STATION':
+        return HttpResponseForbidden("Accès non autorisé")
+
+    context = {
+        'titre_page': 'Ventes'
+    }
+    return render(request, 'gestion_stock/ventes.html', context)
+
+
+from .models import Produit
+
+@login_required
+def stock(request):
+    """
+    Vue pour la gestion des stocks
+    """
+    # Vérifier que l'utilisateur est un gérant de station
+    if not hasattr(request.user, 'utilisateur') or request.user.utilisateur.profil.code != 'GERANT_STATION':
+        return HttpResponseForbidden("Accès non autorisé")
+
+    # Récupérer tous les produits
+    produits = Produit.objects.all()
+
+    context = {
+        'titre_page': 'Stock',
+        'produits': produits
+    }
+    return render(request, 'gestion_stock/stock.html', context)

@@ -5,30 +5,44 @@
 
 {% block sidebar_nav %}
 <!-- Navigation spécifique pour l'administrateur de compagnie -->
-<a href="#" class="nav-item active" onclick="showSection('dashboard-section')">
-  <i class="fa-solid fa-chart-line"></i>
-  <span>Dashboard</span>
-</a>
-<a href="#" class="nav-item" onclick="showSection('carburants-section')">
-  <i class="fa-solid fa-gas-pump"></i>
-  <span>Carburants</span>
-</a>
-<a href="#" class="nav-item" onclick="showSection('lubrifiants-section')">
-  <i class="fa-solid fa-oil-can"></i>
-  <span>Lubrifiants</span>
-</a>
-<a href="#" class="nav-item" onclick="showSection('stations-section')">
-  <i class="fa-solid fa-building"></i>
-  <span>Stations</span>
-</a>
-<a href="#" class="nav-item">
-  <i class="fa-solid fa-chart-bar"></i>
-  <span>Rapports</span>
-</a>
-<a href="#" class="nav-item">
-  <i class="fa-solid fa-gear"></i>
-  <span>Paramètres</span>
-</a>
+<ul class="nav flex-column gap-2">
+  <li class="nav-item">
+    <a href="{% url 'gestion_stock:espace_admin' %}" class="nav-link {% if request.resolver_match.url_name == 'espace_admin' %}active{% endif %}" onclick="showSection('dashboard-section')">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span>Tableau de Bord</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="#" class="nav-link" onclick="showSection('carburants-section')">
+      <span class="material-symbols-outlined">local_gas_station</span>
+      <span>Carburants</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="#" class="nav-link" onclick="showSection('lubrifiants-section')">
+      <span class="material-symbols-outlined">oil_barrel</span>
+      <span>Lubrifiants</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="#" class="nav-link" onclick="showSection('stations-section')">
+      <span class="material-symbols-outlined">store</span>
+      <span>Stations</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="#" class="nav-link">
+      <span class="material-symbols-outlined">bar_chart</span>
+      <span>Rapports</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="#" class="nav-link">
+      <span class="material-symbols-outlined">settings</span>
+      <span>Paramètres</span>
+    </a>
+  </li>
+</ul>
 {% endblock %}
 
 {% block content %}

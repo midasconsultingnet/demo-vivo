@@ -998,9 +998,26 @@
       display: block;
     }
   </style>
+
+  <!-- Menu spécifique selon le profil utilisateur -->
+  <style>
+    .menu-item {
+      display: none;
+    }
+
+    .menu-gerant_station .menu-gerant_station,
+    .menu-admin_compagnie .menu-admin_compagnie,
+    .menu-responsable_zone .menu-responsable_zone {
+      display: block;
+    }
+  </style>
   {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body class="
+  {% if user.utilisateur.profil.code == 'GERANT_STATION' %}menu-gerant_station
+  {% elif user.utilisateur.profil.code == 'ADMIN_COMPAGNIE' %}menu-admin_compagnie
+  {% elif user.utilisateur.profil.code == 'RESPONSABLE_ZONE' %}menu-responsable_zone
+  {% endif %}">
   <div class="app-layout">
 
     <!-- ========================================
@@ -1013,33 +1030,89 @@
       </div>
 
       <nav class="sidebar-nav">
-        {% block sidebar_nav %}
-        <!-- Navigation par défaut -->
-        <a href="#" class="nav-item active">
-          <i class="fa-solid fa-chart-line"></i>
-          <span>Dashboard</span>
-        </a>
-        <a href="#" class="nav-item">
-          <i class="fa-solid fa-cart-shopping"></i>
-          <span>Ventes</span>
-        </a>
-        <a href="#" class="nav-item">
-          <i class="fa-solid fa-building"></i>
-          <span>Structure</span>
-        </a>
-        <a href="#" class="nav-item">
-          <i class="fa-solid fa-users"></i>
-          <span>Clients</span>
-        </a>
-        <a href="#" class="nav-item">
-          <i class="fa-solid fa-chart-bar"></i>
-          <span>Rapports</span>
-        </a>
-        <a href="#" class="nav-item">
-          <i class="fa-solid fa-gear"></i>
-          <span>Paramètres</span>
-        </a>
-        {% endblock %}
+        {% if user.utilisateur %}
+          {% if user.utilisateur.profil.code == 'GERANT_STATION' %}
+            <a href="{% url 'gestion_stock:espace_gerant' %}" class="nav-item {% if request.resolver_match.url_name == 'espace_gerant' %}active{% endif %}">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Tableau de Bord</span>
+            </a>
+            <a href="{% url 'gestion_stock:mes_stations' %}" class="nav-item {% if request.resolver_match.url_name == 'mes_stations' %}active{% endif %}">
+              <i class="fa-solid fa-store"></i>
+              <span>Mes stations</span>
+            </a>
+            <a href="{% url 'gestion_stock:approvisionnements' %}" class="nav-item {% if request.resolver_match.url_name == 'approvisionnements' %}active{% endif %}">
+              <i class="fa-solid fa-truck"></i>
+              <span>Approvisionnements</span>
+            </a>
+            <a href="{% url 'gestion_stock:ventes' %}" class="nav-item {% if request.resolver_match.url_name == 'ventes' %}active{% endif %}">
+              <i class="fa-solid fa-cart-shopping"></i>
+              <span>Ventes</span>
+            </a>
+            <a href="{% url 'gestion_stock:stock' %}" class="nav-item {% if request.resolver_match.url_name == 'stock' %}active{% endif %}">
+              <i class="fa-solid fa-warehouse"></i>
+              <span>Stock</span>
+            </a>
+          {% elif user.utilisateur.profil.code == 'ADMIN_COMPAGNIE' %}
+            <a href="{% url 'gestion_stock:espace_admin' %}" class="nav-item {% if request.resolver_match.url_name == 'espace_admin' %}active{% endif %}">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Tableau de Bord</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-gas-pump"></i>
+              <span>Carburants</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-oil-can"></i>
+              <span>Lubrifiants</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-store"></i>
+              <span>Stations</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-users"></i>
+              <span>Utilisateurs</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-chart-column"></i>
+              <span>Performance</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-chart-bar"></i>
+              <span>Rapports</span>
+            </a>
+          {% elif user.utilisateur.profil.code == 'RESPONSABLE_ZONE' %}
+            <a href="{% url 'gestion_stock:espace_resp_zone' %}" class="nav-item {% if request.resolver_match.url_name == 'espace_resp_zone' %}active{% endif %}">
+              <i class="fa-solid fa-chart-line"></i>
+              <span>Tableau de Bord</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-map-marker-alt"></i>
+              <span>Zones</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-store"></i>
+              <span>Stations</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-gas-pump"></i>
+              <span>Carburants</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-oil-can"></i>
+              <span>Lubrifiants</span>
+            </a>
+            <a href="#" class="nav-item">
+              <i class="fa-solid fa-chart-bar"></i>
+              <span>Rapports</span>
+            </a>
+          {% endif %}
+        {% else %}
+          <a href="{% url 'gestion_stock:index' %}" class="nav-item {% if request.resolver_match.url_name == 'index' %}active{% endif %}">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Tableau de Bord</span>
+          </a>
+        {% endif %}
       </nav>
 
       <div class="sidebar-footer">

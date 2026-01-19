@@ -5,30 +5,44 @@
 
 {% block sidebar_nav %}
 <!-- Navigation spécifique pour le gérant de station -->
-<a href="#" class="nav-item active" onclick="showSection('dashboard-section')">
-  <i class="fa-solid fa-chart-line"></i>
-  <span>Dashboard</span>
-</a>
-<a href="#" class="nav-item" onclick="showSection('stations-section')">
-  <i class="fa-solid fa-building"></i>
-  <span>Mes stations</span>
-</a>
-<a href="#" class="nav-item" onclick="showSection('approvisionnements-section')">
-  <i class="fa-solid fa-truck-loading"></i>
-  <span>Approvisionnements</span>
-</a>
-<a href="#" class="nav-item" onclick="showSection('ventes-section')">
-  <i class="fa-solid fa-cash-register"></i>
-  <span>Ventes</span>
-</a>
-<a href="#" class="nav-item" onclick="showSection('stocks-section')">
-  <i class="fa-solid fa-warehouse"></i>
-  <span>Stocks</span>
-</a>
-<a href="#" class="nav-item">
-  <i class="fa-solid fa-gear"></i>
-  <span>Paramètres</span>
-</a>
+<ul class="nav flex-column gap-2">
+  <li class="nav-item">
+    <a href="#" class="nav-link" onclick="showSection('dashboard-section')">
+      <span class="material-symbols-outlined">dashboard</span>
+      <span>Tableau de Bord</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'gestion_stock:mes_stations' %}" class="nav-link {% if request.resolver_match.url_name == 'mes_stations' %}active{% endif %}">
+      <span class="material-symbols-outlined">inventory</span>
+      <span>Mes stations</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'gestion_stock:approvisionnements' %}" class="nav-link {% if request.resolver_match.url_name == 'approvisionnements' %}active{% endif %}">
+      <span class="material-symbols-outlined">local_shipping</span>
+      <span>Approvisionnements</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'gestion_stock:ventes' %}" class="nav-link {% if request.resolver_match.url_name == 'ventes' %}active{% endif %}">
+      <span class="material-symbols-outlined">storefront</span>
+      <span>Ventes</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'gestion_stock:espace_gerant' %}" class="nav-link {% if request.resolver_match.url_name == 'espace_gerant' %}active{% endif %}" onclick="showSection('stocks-section')">
+      <span class="material-symbols-outlined">inventory_2</span>
+      <span>Stocks</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="{% url 'gestion_stock:espace_gerant' %}" class="nav-link {% if request.resolver_match.url_name == 'espace_gerant' %}active{% endif %}">
+      <span class="material-symbols-outlined">settings</span>
+      <span>Paramètres</span>
+    </a>
+  </li>
+</ul>
 {% endblock %}
 
 {% block content %}

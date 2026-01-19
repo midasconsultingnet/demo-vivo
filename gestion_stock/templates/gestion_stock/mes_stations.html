@@ -1,0 +1,51 @@
+{% extends 'espace_gerant.html' %}
+
+{% block title %}Mes Stations - SuccessFuel{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1>Mes Stations</h1>
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Liste des Stations</h3>
+      <a href="#" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Ajouter nouveau station</a>
+    </div>
+    <div class="card-content">
+      <div class="table-container">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Localisation</th>
+              <th>Compagnie</th>
+              <th>Statut</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if stations %}
+              {% for station in stations %}
+              <tr>
+                <td>{{ station.nom }}</td>
+                <td>{{ station.informations.adresse|default:"Non spécifiée" }}</td>
+                <td>{{ station.compagnie.nom|default:"Non spécifiée" }}</td>
+                <td>
+                  <span class="badge badge-success">Actif</span>
+                </td>
+                <td>
+                  <button class="btn btn-outline">Détails</button>
+                </td>
+              </tr>
+              {% endfor %}
+            {% else %}
+            <tr>
+              <td colspan="5" class="text-center">Aucune station trouvée</td>
+            </tr>
+            {% endif %}
+          </tbody>
+        </table>
+      </div>
+    </div>    
+  </div>
+</div>
+{% endblock %}
